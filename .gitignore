@@ -5,3 +5,8 @@
 *.fls
 *.log
 *.synctex.gz
+.DS_Store
+*-blx.bib
+*.out
+*.run.xml
+*.toc
