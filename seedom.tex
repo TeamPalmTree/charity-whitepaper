@@ -29,7 +29,6 @@ with Supporter Rewards}
 \date{\today}
 \maketitle
 
-
 \begin{abstract}
 There isn't an efficient, transparent, and trustless method to facilitate positive charitable organizations and the members of society they serve in a time of crisis. Fundraisers take time to put together and crowd-sourced campaigns often lack transparency and have to spread through word-of-mouth. Seedom is a fundraising and supporter rewards platform that allows anyone to seed fund trustworthy charities that deal directly with afflicted individuals in a trustless fashion, thereby augmenting these individuals' freedom in an otherwise oppressive world. Bimonthly, a new timely and relevant charity will be chosen to receive about half of the funds raised through our smart contract. The other half of the funds will go towards one of the supporters, as selected by the participants at large along with the charity. A small percentage will be taken by the Seedom team as an administration fee in order to continuously improve this product through several phases, advertise with the charity, and celebrate the community-chosen participant.
 \end{abstract}
@@ -101,7 +100,7 @@ After the charity has submitted their hashed random number, the fundraiser is co
 
 Each entry costs a fixed value determined by the Seedom team at kickoff. The cost of a single entry will be very affordable to those beneath the international poverty line of \$1.90 (USD) per day \cite{1}. Each entry increases the likelihood that you will be selected by both the community and the charity to receive a split percentage of all of the ether received by the contract, similar to a raffle. If you are the winner of this ether, you will also be invited to participate in the physical fundraiser event after the end. Entries cannot be refunded and must be confirmed during the revelation phase. Partial entries will be refunded immediately when participating or through additional funding after participation. The owner and the charity are never allowed to participate.
 
-Along with the hashed random and any ether, a user can optionally associate their ethereum address with a short alias and their email address. These three values are stored off-chain in Seedom's secure servers and are forgotten by the time the next fundraiser begins to protect user privacy and keep our system GDPR compliant. For phase one, the alias is used to render a list of recent participants. The email address is only used to invite the community-chosen winning supporter to the physical fundraiser during the last few days.
+Along with the hashed random and any ether, a user can optionally associate their Ethereum address with a short alias and their email address. These three values are stored off-chain in Seedom's secure servers and are forgotten by the time the next fundraiser begins to protect user privacy and keep our system GDPR compliant. For phase one, the alias is used to render a list of recent participants. The email address is only used to invite the community-chosen winning supporter to the physical fundraiser during the last few days.
 
 After initial participation, more ether can be sent to the smart contract directly to obtain more entries. However, additional calls to participate will fail and the participant's hashed random number cannot be altered. There are no limits to the numbers of entries a participant can obtain and the participant can check the number of entries they or any other participant have through the contract at any time.
 
@@ -117,11 +116,19 @@ When the revelation phase ends, participants are no longer allowed to reveal the
 
 Because Ethereum is a turing complete deterministic world computer, mining nodes cannot generate individual random numbers as they would never be able to reach consensus. Some decentralized applications decide to use a miner-defined value, such as the blockhash, timestamp, or other value to generate a random number. This technique is flawed because of this and the miner's ability to reorder transactions, not include transactions, and not send out blocks. This gives the miner additional chances of winning.
 
-Seedom's technique in similar to that of the RANDAO \cite{2}. It starts with the seed of a hashed random provided by the charity, a collection of secret hashed randoms in the participation phase, and the revelation of these randoms during the revelation phase. All of these revealed random numbers are XORed together, starting with the participant randoms and ending with the charity random, to produce a final universal random that will be used to determine the winning participant.
+Seedom's technique in similar to that of the RANDAO \cite{2}. It starts with the seed of a hashed random provided by the charity, a collection of secret hashed randoms in the participation phase, and the revelation of these randoms during the revelation phase. All of these revealed random numbers are XORed together, starting with the participant randoms and ending with the charity random, to produce a final universal crowd-sourced random that will be used to determine the winning participant, as seen in figure \ref{figure:crowdsourcedRandomNumberGeneration}.
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{crowdsourcedRandomNumberGeneration.png}
+\caption{Crowd-sourced random number generation}
+\label{figure:crowdsourcedRandomNumberGeneration}
+\end{center}
+\end{figure}
 
 If hashed randoms are only collected and revealed from the participants, the last participant has the choice to reveal their random, essentially giving them a double chance of winning. Worse yet, a miner that has participated many times using unique wallet addresses can gain many additional chances by reordering their reveal transactions and choosing which ones to publish. Because the cost of a Seedom entry will be low enough to be affordable by all, transaction gas and entry costs will not deincentivize bad miners from using this method.
 
-To prevent this kind of tampering by the miners, the charity must be used as a trusted third party to provide a random that can alter any manipulation by miners. This charity random is provided hashed before the first user participates so that the charity cannot themselves manipulate the final universal random. Users participating in a fundraiser tied to a specific charity are confirming their trust of the charity and their beneficial work. This trust extends to the charity's ability to seed start the fundraiser with their hashed random and end it with their final random revelation. The charity is incentivized to start and end a fundraiser because of the ether they will receive.
+To prevent this kind of tampering by the miners, the charity must be used as a trusted third party to provide a random that can alter any manipulation by miners. This charity random is provided hashed before the first user participates so that the charity cannot themselves manipulate the final crowd-sourced random. Users participating in a fundraiser tied to a specific charity are confirming their trust of the charity and their beneficial work. This trust extends to the charity's ability to seed start the fundraiser with their hashed random and end it with their final random revelation. The charity is incentivized to start and end a fundraiser because of the ether they will receive.
 
 \subsubsection{Winning Supporter Selection}
 
@@ -139,7 +146,14 @@ At any time after kickoff and before end, both the charity and the owner can can
 
 After the charity issues the end call, cancellation is impossible as funds have already been appropriated into the balances mapping. However, if the charity fails to end a fundraiser before the expire time, the cancel function becomes open to the charity, the owner, and the community. This ensures that even if something catastrophic happens to the owner and the charity, all entries can be refunded.
 
-\subsection{Team Members}
+\section{Future Work}
+
+\subsection{Phase 2}
+
+\section{Token Sale}
+Never.
+
+\section{Team Members}
 \vbox{
 \begin{itemize}
 \item{\href{https://www.linkedin.com/in/jesse-kuiper-cpa-771a2111}{Jesse Kuiper}, Founder & President}
