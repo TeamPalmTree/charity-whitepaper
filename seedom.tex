@@ -15,6 +15,8 @@
     \usepackage{calc}
     \usepackage{ifthen}
     \usepackage{tikz}
+    \usepackage{svg}
+    \usepackage{float}
     %%\usepackage{cite} 
     %%\usepackage{notoccite}
     \usepackage[backend=bibtex,sorting=none]{biblatex}
@@ -43,9 +45,16 @@ There isn't an efficient, transparent, and trustless method to facilitate positi
 
 \section{Introduction}
 
-Seedom is an Ethereum decentralized application for raising awareness and funds for charities in need while rewarding a single supporting participant for their contribution. The selection of the winning participant is crowd-sourced from the participants and the current charity. Funds raised will be distributed according to table \ref{tab:fundSplitPercentages}.
+Seedom is an Ethereum decentralized application for raising awareness and funds for charities in need while rewarding a single supporting participant for their funds contribution. The selection of the winning participant is crowd-sourced from the participants and the selected charity. Funds raised will be distributed according to table \ref{tab:fundSplitPercentages}. Administration fees cover our expenses in four operational areas.
 
-\begin{table}[!htb]
+\begin{itemize}
+\item{\textbf{Staff} team members, which include the president, founders, software developers, and the marketing team}
+\item{\textbf{Legal} legal representation to protect private fundraising rights internationally}
+\item{\textbf{Audits} continuous security and financial audits as organizational and technological changes are made}
+\item{\textbf{Events} additional physical fundraisers to further raise money for and promote charities}
+\end{itemize}
+
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{| l | l | l |}
 \hline
@@ -56,7 +65,7 @@ Seedom is an Ethereum decentralized application for raising awareness and funds 
 \label{tab:fundSplitPercentages}
 \end{center}
 \end{table}
-    
+
 \subsection{Charity Selection}
 
 Well before a fundraiser begins, the Seedom team will accept suggestions from various communication sources including email, text messages, chat app messages, and posts to our social media accounts. For phase one, the Seedom team will be the authority for charity selection. A charity will be chosen using several criteria.
@@ -68,7 +77,7 @@ Well before a fundraiser begins, the Seedom team will accept suggestions from va
 \item{\textbf{Cooperative} the charity must be willing to work with the Seedom team}
 \end{itemize}
 
-\subsection{Unique Combination of Qualities}
+\subsection{Combination of Qualities}
 
 Seedom is the first fund raising and rewards platform with all of the following qualities.
 
@@ -88,13 +97,21 @@ Seedom is the first fund raising and rewards platform with all of the following 
 
 \subsection{Comparison to Other Fundraising Methods}
 
-Many methods exist for raising funds for charities. Outside of direct donations, some of the most popular include crowdfunding, matching gifts, drives, sales, auctions, events, lotteries, and raffles. All of these methods lack a few to many of our qualities.
+Many methods exist for raising funds for charities. Outside of direct donations, some of the most popular include crowdfunding, matching gifts, drives, sales, auctions, events, lotteries, and raffles. All of these methods lack many of our combined qualities.
+
+\subsubsection{Crowdfunding}
 
 Crowdfunding is one of the best ways to raise funds for a charity or cause. Unfortunately, most of the popular fundraising platforms are not on Ethereum and therefore receive none of the many benefits native to the platform. When using a centralized website, such as GoFundMe, one is relying on them as to move funds from donors to a charity. Without trustless transaction transparency, it is impossible to know if these funds ever made it to their destination. Moreover, many crowdfunding companies charge 8+\% fees for any donation, which includes a hefty payment processing fee. Because of this reliance on payment processors, GoFundMe is only available in a handful of counties.
 
+\subsubsection{Matching, Drives, Sales, and Auctions}
+
 Matching, drives, sales, and auctions are also effective fundraising vehicles. Donation matching requires one to work for or know a company that offers this perk. Donation drives may involve an intermediary that converts physical donations into monetary ones. Sales of items require the overhead of procuring items to sell in addition to the resale activity. Auctions items must be solicited, hopefully for free, and then sold for donation funds. Because of the various requirements and overheads involved with each of these techniques, the timeliness and relevancy of the ultimate donations might be lacking and with middlemen involved, trust and transparency are still huge issues. All three of these also lack global participation.
 
+\subsubsection{Events}
+
 Fundraising events are social gatherings that raise funds and awareness for a charity. Face to face communication is indispensable to furthering a cause and should never be overlooked. However, events can get expensive when selecting a venue, hiring temporary staff, providing food, creating informative materials, etc. Seedom adopts this technique at the end of each fundraiser for the mentioned benefits in addition to celebrating the newfound success of the winning supporter. In this way, the bulk of the funds have already been raised and distributed, making this final event important, but not necessary to the success of the chosen charity.
+
+\subsubsection{Lotteries \& Raffles}
 
 Although Seedom is not a lottery and not a raffle, similar organizations exist worldwide and all of them have administration fees for their existence. In the United States, nearly every state has its own lottery, with a national average administration fee of 4.76\% according the the U.S. Census Bureau \cite{3}; however, this does not include commissions paid out to lottery ticket sellers, which equal this same percentage, on average \cite{4}. All expenses considered, 8-10\% of every lottery ticket sold in the U.S. goes towards the lottery process itself and not the winner(s) and beneficiaries.
 
@@ -102,9 +119,9 @@ Although Seedom is not a lottery and not a raffle, similar organizations exist w
 
 Seedom will kickoff a new fundraiser for a new charity bimonthly, or roughly every two weeks, on the 1st and 15th of every month. Thirteen days is the span of the entire timeline due to February's 28 total days during standard years. Seedom will go on break on the 13th and 14th of every month in addition to the 29th until the end of any month long enough.
 
-\begin{figure}[!htb]
+\begin{figure}[H]
 \begin{center}
-\includegraphics[width=1.0\textwidth]{fundraiserBimonthlyTimeline.png}
+\includegraphics[width=1.0\textwidth]{fundraiserBimonthlyTimeline.pdf}
 \caption{Fundraiser bimonthly timeline}
 \label{figure:fundraiserBimonthlyTimeline}
 \end{center}
@@ -113,7 +130,7 @@ Seedom will kickoff a new fundraiser for a new charity bimonthly, or roughly eve
 \subsection{Fundraiser Kickoff}
 A fundraiser begins with the Seedom team kicking it off through our smart contract by providing several parameters defined in table \ref{tab:fundraiserKickoffParameters}.
 
-\begin{table}[!htb]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{| l | l | l |}
 \hline
@@ -136,7 +153,7 @@ Shortly after kickoff, the charity must create a 32-byte random number. This has
 
 The charity will now seed the charity a 32-byte hash of it. Only the charity can provide this hashed number and no one can participate if it is not provided. All hashed randoms are generated using the hashed random formula in figure \ref{figure:hashedRandomNumberFormula}. The charity must safeguard their random number and not reveal it to anyone outside of their organization. It will be used later when the charity ends the fundraiser. If the charity does not seed the fundraiser before the revelation phase, the fundraiser is a dud and all participants will be refunded upon cancellation.
 
-\begin{figure}[!htb]
+\begin{figure}[H]
 \begin{center}
 \fbox{$hashedRandomNumber = sha3_{keccak256}(randomNumber, ethereumAddress)$}
 \caption{Hashed random number formula (randomNumber is 32 bytes, ethereumAddress is 20 bytes)}
@@ -166,11 +183,11 @@ When the revelation phase ends, participants are no longer allowed to reveal the
 
 Because Ethereum is a turing complete deterministic world computer, mining nodes cannot generate individual random numbers as they would never be able to reach consensus. Some decentralized applications decide to use a miner-defined value, such as the blockhash, timestamp, or other value to generate a random number. This technique is flawed because of this and the miner's ability to reorder transactions, not include transactions, and not send out blocks. This gives the miner additional chances of winning.
 
-Seedom's technique in similar to that of the RANDAO\cite{2}. It starts with the seed of a hashed random provided by the charity, a collection of secret hashed randoms in the participation phase, and the revelation of these randoms during the revelation phase. All of these revealed random numbers are XORed together, starting with the participant randoms and ending with the charity random, to produce a final universal crowd-sourced random that will be used to determine the winning participant, as seen in figure \ref{figure:crowdsourcedRandomNumberGeneration}.
+Seedom's technique in similar to that of the RANDAO\cite{2}. It starts with a hashed random seed provided by the charity, a collection of secret hashed randoms in the participation phase, and the revelation of these randoms during the revelation phase. All of these revealed random numbers are XORed together, starting with the participant randoms and ending with the charity random, to produce a final universal crowd-sourced random that will be used to determine the winning participant, as seen in figure \ref{figure:crowdsourcedRandomNumberGeneration}.
 
-\begin{figure}[!htb]
+\begin{figure}[H]
 \begin{center}
-\includegraphics[width=1.0\textwidth]{crowdsourcedRandomNumberGeneration.png}
+\includegraphics[width=1.0\textwidth]{crowdsourcedRandomNumberGeneration.pdf}
 \caption{Crowd-sourced random number generation}
 \label{figure:crowdsourcedRandomNumberGeneration}
 \end{center}
@@ -180,9 +197,17 @@ If hashed randoms are only collected and revealed from the participants, the las
 
 To prevent this kind of tampering by the miners, the charity must be used as a trusted third party to provide a random that can alter any manipulation by miners. This charity random is provided hashed before the first user participates so that the charity cannot themselves manipulate the final crowd-sourced random. Users participating in a fundraiser tied to a specific charity are confirming their trust of the charity and their beneficial work. This trust extends to the charity's ability to seed start the fundraiser with their hashed random and end it with their final random revelation. The charity is incentivized to start and end a fundraiser because of the ether they will receive.
 
-\subsubsection{Winning Supporter Selection}
+\subsubsection{Winning Participant Selection}
 
-After the universal random number is generated as part of the end call from the charity, it will be modded with the total number of revealed entries to determine an index into the global pool of revealed entries with the same call. The participant associated with the entry at this index is the winning supporter. As a last step in this call, a balance mapping is updated with owed funds to the charity, winner, and owner. Ether is not immediately distributed to each individual to prevent invalid or malignant addresses from reverting the end call. A winner is always guaranteed during each and every bimonthly fundraiser.
+After the crowd-sourced random number is generated as part of the end call from the charity, it will be modded with the total number of revealed entries to determine an index into the global pool of revealed entries. A discrete cumulative density function is generated to assist with this process. density function The participant associated with the entry at this index is the winning supporter. As a last step in this call, a balance mapping is updated with owed funds to the charity, winner, and owner. Ether is not immediately distributed to each individual to prevent invalid or malignant addresses from reverting the end call. A winner is always guaranteed during each and every bimonthly fundraiser.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{winningParticipantSelection.pdf}
+\caption{Winning participant selection}
+\label{figure:winningParticipantSelection}
+\end{center}
+\end{figure}
 
 \subsection{Physical Fundraising Phase}
 
@@ -195,19 +220,6 @@ Now that the Ethereum fundraiser is over, a physical fundraiser will take place 
 At any time after kickoff and before end, both the charity and the owner can cancel the fundraiser. Cancellation is a simple process in which all entries are refunded to the respective participant addresses. This is done by updating the same balances mapping used to distribute charity, winners, and owner funds. After cancellation is complete, users may withdraw their refunds using the withdraw function. Gas costs cannot be refunded.
 
 After the charity issues the end call, cancellation is impossible as funds have already been appropriated into the balances mapping. However, if the charity fails to end a fundraiser before the expire time, the cancel function becomes open to the charity, the owner, and the community. This ensures that even if something catastrophic happens to the owner and the charity, all entries can be refunded.
-
-\section{Fees \& Splits}
-
-Seedom's administration fee will be 5\% of all funds sent to the smart contract on a bimonthly basis. The remaining 95\% of the funds raised will be split evenly between the charity and the winner, with each receiving 47.5\%. Administration fees cover our expenses in four operational areas.
-
-\begin{itemize}
-\item{\textbf{Staff} team members, which include the president, founders, software developers, and the marketing team}
-\item{\textbf{Legal} legal representation to protect private fundraising rights internationally}
-\item{\textbf{Audits} continuous security and financial audits as organizational and technological changes are made}
-\item{\textbf{Events} additional physical fundraisers to further raise money for and promote charities}
-\end{itemize}
-
-\section{Comparison to Other Platforms}
 
 \section{Future Work}
 
