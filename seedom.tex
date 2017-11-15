@@ -68,7 +68,7 @@ Seedom is an Ethereum decentralized application for raising awareness and funds 
 
 \subsection{Charity Selection}
 
-Well before a fundraiser begins, the Seedom team will accept suggestions from various communication sources including email, text messages, chat app messages, and posts to our social media accounts. For phase one, the Seedom team will be the authority for charity selection. A charity will be chosen using several criteria.
+Well before a fundraiser begins, the Seedom team will accept suggestions from various communication sources including email, text messages, chat app messages, and posts to our social media accounts. The Seedom team will have the discretion of charity selection for the first release, using several criteria, outlined below, to identify the most appropriate charity. A future goal is to open up this selection process further to have it be completely community driven.
 
 \begin{itemize}
 \item{\textbf{Legitimacy} the charity must be a non-profit with a proven record of benefitting the general public}
@@ -87,7 +87,7 @@ Seedom is the first fund raising and rewards platform with all of the following 
 \item{\textbf{Transparent} all contract transactions publicly visible and immutable}
 \item{\textbf{Relevant} legitimate charities working on focused causes that have an ongoing need for assistance }
 \item{\textbf{Secure} security is provided by the Ethereum platform itself and MetaMask}
-\item{\textbf{Anonymous} a wallet is the only requirement
+\item{\textbf{Anonymous} a wallet is the only requirement}
 \item{\textbf{Private} any identifying information given is purged after each fundraiser}
 \item{\textbf{Global} anyone in the world can participate}
 \item{\textbf{Affordable} everyone will be able to afford an entry}
@@ -163,13 +163,13 @@ The charity will now seed the charity a 32-byte hash of it. Only the charity can
 
 \subsection{Participation Phase}
 
-After the charity has submitted their hashed random number, the fundraiser is considered open and anyone can now participate and send ether to the contract. Participation is a one-time activity and first, a user must create their own 32-byte random number and hash it using the formula in figure \ref{figure:hashedRandomNumberFormula}. The user must safeguard their random number and not reveal anyone else. It will be used during the revelation phase to confirm their participation in the fundraiser. The participation function also accepts ether funding to obtain entries.
+After the charity has submitted their hashed random number, the fundraiser is considered open and anyone can now participate and send ether to the contract. Participation is a one-time activity and first, a user must create their own 32-byte random number and hash it using the formula in figure \ref{figure:hashedRandomNumberFormula}. The user must safeguard their random number and not reveal anyone else. It will be used during the revelation phase to confirm their participation in the fundraiser and during fundraiser end to uniquely identify the winning participant.
 
 Each entry costs a fixed value determined by the Seedom team at kickoff. The cost of a single entry will be very affordable to those beneath the international poverty line of \$1.90 (USD) per day\cite{1}. Each entry increases the likelihood that you will be selected by both the community and the charity to receive a split percentage of all of the ether received by the contract, similar to a raffle. If you are the winner of this ether, you will also be invited to participate in the physical fundraiser event after the end. Entries cannot be refunded and must be confirmed during the revelation phase. Partial entries will be refunded immediately when participating or through additional funding after participation. The owner and the charity are never allowed to participate.
 
 Along with the hashed random and any ether, a user can optionally associate their Ethereum address with a short alias and their email address. These three values are stored off-chain in Seedom's secure servers and are forgotten by the time the next fundraiser begins to protect user privacy and keep our system GDPR compliant. For phase one, the alias is used to render a list of recent participants. The email address is only used to invite the community-chosen winning supporter to the physical fundraiser during the last few days.
 
-After initial participation, more ether can be sent to the smart contract directly to obtain more entries. However, additional calls to participate will fail and the participant's hashed random number cannot be altered. There are no limits to the numbers of entries a participant can obtain and the participant can check the number of entries they or any other participant have through the contract at any time.
+Ether can be sent along with participation to obtain initial entries and more can be sent afterwards through the fallback function for the same purpose. However, additional calls to participate will fail and the participant's hashed random number cannot be altered. There are no limits to the numbers of entries a participant can obtain and the participant can check the number of entries they or any other participant have through the contract at any time.
 
 \subsection{Revelation Phase}
 
@@ -199,7 +199,9 @@ To prevent this kind of tampering by the miners, the charity must be used as a t
 
 \subsubsection{Winning Participant Selection}
 
-After the crowd-sourced random number is generated as part of the end call from the charity, it will be modded with the total number of revealed entries to determine an index into the global pool of revealed entries. A discrete cumulative density function is generated to assist with this process. density function The participant associated with the entry at this index is the winning supporter. As a last step in this call, a balance mapping is updated with owed funds to the charity, winner, and owner. Ether is not immediately distributed to each individual to prevent invalid or malignant addresses from reverting the end call. A winner is always guaranteed during each and every bimonthly fundraiser.
+After the crowd-sourced random number is generated as part of the end call from the charity, it will be modded with the total number of revealed entries to determine an index into the global list of revealed entries. A discrete cumulative density function of entries is generated to assist with this process and the participant associated with the entry at this index is the winning supporter. As a last step in this call, a balance map is updated with owed funds to the charity, winner, and owner. Ether is not immediately distributed to each individual to prevent invalid or malignant addresses from reverting the end call in the Ethereum Virtual Machine. A winner is always guaranteed during each and every bimonthly fundraiser.
+
+After the winning participant is selected during the end call, a contract event will be broadcast that includes the participant's address, the decoded participant's random, and the total reward amounts calculated for the charity, winner, and Seedom. The participant's initially secret generated random from the participation phase serves as the pseudo-unique identifier of the winner. While this uniqueness relies on the uniqueness of participant randoms, which can be the same, the Seedom UI will show both the winning participant's address and their random.
 
 \begin{figure}[H]
 \begin{center}
@@ -226,13 +228,13 @@ Never.
 
 \section{Future Work}
 
-\subsection{Ordered Statistic Tree Participant Storage}
+\subsection{Better Participant Storage}
 
-\subsubsection{Participants Leaderboard}
+The current dynamic participant storage array in the smart contract will be replaced by an order statistic tree \cite{5}. The participants hash map will remain the same and will be used in conjunction with this tree. This type of balanced binary search tree allows for the efficient rank ordering of participant entries and it is an essential step to providing support for a live participant leaderboard.
+
+\subsubsection{Live Participants Leaderboard}
 
 As more people enter, a live leaderboard will be available that tracks in descending order each participant's number of entries. If a user does not provide an alias, their sending Ethereum address will be displayed. If the user does provide an alias, that will be used instead. While not encouraged, participants are free to use this as a way of impromptu advertising. So if Company X wants their name to show on the Seedom homepage, they can buy the most entries to display themselves at the top of the leaderboard.
-
-\subsubsection{Entry Numbers}
 
 \subsection{Handling Fund Growth}
 
@@ -247,6 +249,8 @@ Starting at 5\%, our administration fee should be adequate to maintain our decen
 There is an inherent burden that comes with the large influx of funds to any individual. Therefore, as the fund gets larger, we may introduce, at our discretion, the ability for multiple winners. Each successive winner might receive more funds than the last or a pool of winners may equally split the funds. There will only be one benefitting charity for any fundraiser, however.
 
 \subsection{Crowd-sourced Charity Selection}
+
+
 
 \section{Team Members}
 \vbox{
