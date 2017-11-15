@@ -183,7 +183,7 @@ When the revelation phase ends, participants are no longer allowed to reveal the
 
 Because Ethereum is a turing complete deterministic world computer, mining nodes cannot generate individual random numbers as they would never be able to reach consensus. Some decentralized applications decide to use a miner-defined value, such as the blockhash, timestamp, or other value to generate a random number. This technique is flawed because of this and the miner's ability to reorder transactions, not include transactions, and not send out blocks. This gives the miner additional chances of winning.
 
-Seedom's technique in similar to that of the RANDAO\cite{2}. It starts with a hashed random seed provided by the charity, a collection of secret hashed randoms in the participation phase, and the revelation of these randoms during the revelation phase. All of these revealed random numbers are XORed together, starting with the participant randoms and ending with the charity random, to produce a final universal crowd-sourced random that will be used to determine the winning participant, as seen in figure \ref{figure:crowdsourcedRandomNumberGeneration}.
+Seedom's technique in similar to that of the RANDAO \cite{2}. It starts with a hashed random seed provided by the charity, a collection of secret hashed randoms in the participation phase, and the revelation of these randoms during the revelation phase. All of these revealed random numbers are XORed together, starting with the participant randoms and ending with the charity random, to produce a final universal crowd-sourced random that will be used to determine the winning participant, as seen in figure \ref{figure:crowdsourcedRandomNumberGeneration}.
 
 \begin{figure}[H]
 \begin{center}
@@ -215,7 +215,7 @@ After the winning participant is selected during the end call, a contract event 
 
 After the end function completes, the charity, winner participant, and the owner can now withdraw their funds by calling the withdraw function. These funds will be available for withdraw at any time and will never expire. As a best practice, it is recommended that everyone withdraw their funds as soon as possible.
 
-Now that the Ethereum fundraiser is over, a physical fundraiser will take place near the headquarters of the benefitting charity to celebrate their success. The winning supporter will be invited by email, if provided to Seedom, to an all expenses paid trip to this event, wherever it may be in the world. Seedom will provide staff to work with the charity to throw this final fundraiser. Afterwards, this process begins again.
+Now that the Ethereum fundraiser is over, a physical fundraiser will take place in close proximity to the headquarters of the benefitting charity to raise even more funds for them. This event will be open to the public and everyone is welcome to attend. Additional ether can be sent directly to the charity at this event while native fiat funds will also be accepted. Shortly after this event, this process will begin again.
 
 \subsection{Fundraiser Cancellation}
 
@@ -247,6 +247,10 @@ Starting at 5\%, our administration fee should be adequate to maintain our decen
 \subsubsection{Multiple Winning Participants}
 
 There is an inherent burden that comes with the large influx of funds to any individual. Therefore, as the fund gets larger, we may introduce, at our discretion, the ability for multiple winners. Each successive winner might receive more funds than the last or a pool of winners may equally split the funds. There will only be one benefitting charity for any fundraiser, however.
+
+\subsubsection{Volunteer Event \& Winner Transportation}
+
+As the administration fund grows, the Seedom team will create a volunteer event during the physical fundraising phase to compliment the physical fundraiser. The winning participant(s) will be invited by email, if provided to Seedom, to an all expenses paid trip to both the volunteer and fundraiser events, wherever they may be in the world. Moreover, Seedom will send some of our team members to both of these events to assist the charity directly.
 
 \subsection{Crowd-sourced Charity Selection}
 
