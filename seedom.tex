@@ -236,6 +236,14 @@ The current dynamic participant storage array in the smart contract will be repl
 
 As more people enter, a live leaderboard will be available that tracks in descending order each participant's number of entries. If a user does not provide an alias, their sending Ethereum address will be displayed. If the user does provide an alias, that will be used instead. While not encouraged, participants are free to use this as a way of impromptu advertising. So if Company X wants their name to show on the Seedom homepage, they can buy the most entries to display themselves at the top of the leaderboard.
 
+\subsection{Enhanced Random Number Generation Security}
+
+Miner manipulation of the crowd-sourced random number generation process requires the Seedom team to adapt the random-generation algorithm in figure \ref{figure:crowdsourcedRandomNumberGeneration} to stay ahead of potential security issues.
+
+\subsubsection{Randomization of the Order of Participant Randoms}
+
+In the first release, participant randoms considered in the crowd-sourced random number generation process are XORed in order of time of participation during the participation phase. Randomization of the order of the XORed randoms using the trusted charity's random as a seed would provide additional protection against last minute miner manipulation of the final random.
+
 \subsection{Handling Fund Growth}
 
 As Seedom's participant base grows, our administration fee and winner selection process may need to be altered.
