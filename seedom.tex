@@ -236,7 +236,9 @@ Never.
 
 \section{Future Work}
 
-\subsection{Better Participant Storage}
+In between fundraisers, continuous improvements to Seedom's decentralized application will be released. If smart contract changes are involved, this will result in a new Seedom contract address for the next fundraiser; however, due to the immutability of the blockchain and our lack of a self-destruct mechanism, legacy contracts will always be accessible for fund withdraws. The following are some of the improvements the Seedom team would like to implement.
+
+\subsection{Efficient Participant Storage}
 
 The current dynamic participant storage array in the smart contract will be replaced by an order statistic tree \cite{5}. The participants hash map will remain the same and will be used in conjunction with this tree. This type of balanced binary search tree allows for the efficient rank ordering of participant entries and it is an essential step to providing support for a live participant leaderboard.
 
