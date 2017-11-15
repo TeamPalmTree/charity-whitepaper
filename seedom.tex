@@ -171,6 +171,14 @@ Along with the hashed random and any ether, a user can optionally associate thei
 
 Ether can be sent along with participation to obtain initial entries and more can be sent afterwards through the fallback function for the same purpose. However, additional calls to participate will fail and the participant's hashed random number cannot be altered. There are no limits to the numbers of entries a participant can obtain and the participant can check the number of entries they or any other participant have through the contract at any time.
 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{participantDataFlow.pdf}
+\caption{Participant data flow}
+\label{figure:participantDataFlow}
+\end{center}
+\end{figure}
+
 \subsection{Revelation Phase}
 
 When the revelation phase begins, calls to participate and fund will fail. Participants may now reveal their secret random numbers, sent hashed in the participation phase, to the rest of the community. All random numbers need not be revealed; however, failing to reveal a random number will result in the forfeiture of funds without the ability to win community selection. Successful revelations may only be performed once per participant and incorrect random revelations, determined using the formula in \ref{figure:hashedRandomNumberFormula}, will be rejected.
