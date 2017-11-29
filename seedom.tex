@@ -1,42 +1,44 @@
 \documentclass[11pt]{article}
-    \usepackage{amsmath}
-    \usepackage{graphicx}
-    \usepackage{color}
-    \usepackage{longtable}
-    \usepackage{tabu} %% text tables
-    %%\usepackage[linktocpage=true]{hyperref} %% links to numbers instead of sections
-    \usepackage{hyperref}
-    %%\usepackage{url}
-    \usepackage{geometry}
-    \geometry{left=1.5cm,right=1.5cm,top=1.5cm,bottom=1.5cm}
-    \graphicspath{{./images/}}
-    \usepackage{amsmath}
-    \usepackage{amssymb}
-    \usepackage{calc}
-    \usepackage{ifthen}
-    \usepackage{tikz}
-    \usepackage{svg}
-    \usepackage{float}
-    %%\usepackage{cite}
-    %%\usepackage{notoccite}
-    \usepackage[backend=bibtex,sorting=none]{biblatex}
-    \addbibresource{seedom.bib}
-    \renewcommand*\rmdefault{ppl}
-    \setlength{\fboxsep}{10pt}
-    \setlength{\fboxrule}{0.5pt}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{longtable}
+\usepackage{tabu} %% text tables
+%%\usepackage[linktocpage=true]{hyperref} %% links to numbers instead of sections
+\usepackage{hyperref}
+%%\usepackage{url}
+\usepackage{geometry}
+\geometry{left=1.5cm,right=1.5cm,top=1.5cm,bottom=1.5cm}
+\graphicspath{{./images/}}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage{tikz}
+\usepackage{svg}
+\usepackage{float}
+%%\usepackage{cite}
+%%\usepackage{notoccite}
+\usepackage[backend=bibtex,sorting=none]{biblatex}
+\addbibresource{seedom.bib}
+\renewcommand*\rmdefault{ppl}
+\setlength{\fboxsep}{10pt}
+\setlength{\fboxrule}{0.5pt}
 
 \begin{document}
 
 \title{%
-\Huge Seedom \\[4mm]
-\large A Community Pool of Ether that Benefits Charities and Contributors \\[1mm]}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{seedom6.pdf}
+\end{center}
+\large An Ethereum Raiser for Charities and Their Supporters \\[1mm]}
 \author{Team Palm Tree}
 \date{\today}
 \maketitle
 
 \begin{abstract}
 
-There isn't an efficient, transparent, and trustless method to facilitate positive charitable organizations and the members of society they serve that also creates opportunity for contributors. Fundraisers in all forms take time to put together, lack full transparency, and foster only a transient connection to the cause. Moreover, campaigns to promote fundraisers require significant effort, especially when potential donors lack proximity to the issue.
+There isn't an efficient, transparent, and trustless system that rewards philanthropists of any stature, impactful charities, and the members of society these individuals better. Fundraisers in any form take time to put together, lack full transparency, and foster only a transient connection to the cause. Campaigns to promote fundraisers require significant effort, especially when potential donors lack proximity to the issue.
 
 Seedom is a platform that allows anyone to contribute ether for distribution to legitimate charities and a participant in Seedom's trustless smart contract. Bimonthly, a new active and demanding charity will be chosen to receive the majority of funds raised through our smart contract. Most of the remaining portion will go to one of the supporters through a selection process crowd-sourced by the participants. A small percentage will be taken by the Seedom team as an administration fee to continuously improve the platform over time and extensively promote each charity.
 
@@ -48,7 +50,7 @@ Seedom is a platform that allows anyone to contribute ether for distribution to 
 
 \section{Introduction}
 
-Seedom is an Ethereum decentralized application for raising awareness and ether for charities in need while rewarding a single supporting participant for their contribution. The selection of the winning participant is crowd-sourced from the participants and the selected charity. Funds raised will be distributed according to Table \ref{tab:fundSplitPercentages}. Administration fees cover our expenses in four operational areas.
+Seedom is an Ethereum decentralized application for raising awareness and ether for charities in need while rewarding a single participant for their contribution and support. The selection of the winning participant is crowd-sourced from the participants and the selected charity. Funds raised will be distributed according to Table \ref{tab:fundSplitPercentages}. Administration fees cover our expenses in four operational areas.
 
 \begin{itemize}
 \item{\textbf{Staff} team members, which include the president, founders, software developers, and the marketing team}
@@ -76,7 +78,7 @@ Well before a fundraiser begins, the Seedom team will accept suggestions from th
 \begin{itemize}
 \item{\textbf{Legitimate} the charity must be a non-profit with a proven record of benefiting the general public}
 \item{\textbf{Active} the charity must be actively working on a cause}
-\item{\textbf{Demanding} there should be an urgent or ongoing unresolved need by the charity for assistance}
+\item{\textbf{Exacting} there should be an urgent or ongoing unresolved need by the charity for assistance}
 \item{\textbf{Cooperative} the charity must be willing to work with the Seedom team}
 \end{itemize}
 
@@ -97,6 +99,10 @@ Seedom is the first fundraising and rewards platform with all of the following q
 \item{\textbf{Limitless} there is no limit to the number of obtainable entries}
 \item{\textbf{Instantaneous} payouts to the charity and the winning participant are immediate after the fundraiser ends}
 \end{itemize}
+
+\subsection{Seedom Trustlessness}
+
+While the Seedom community relies on the administration team to choose legitimate, active, exacting, and cooperative charities twice a month, no further trust is required in our team. Once an ether-raiser has begun, the charity being supported by the community has complete control of the contract until the next ether-raiser begins. By handing control of the smart contract over to the charity, they function as the trusted third party. However, there is a cancellation routine open to the charity and the Seedom team, that will refund everyone their ether.
 
 \subsection{Comparison to Other Fundraising Methods}
 
@@ -172,7 +178,7 @@ The charity will now seed the charity a 32-byte hash of it. Only the charity can
 
 After the charity has submitted their hashed random number, the fundraiser is considered open, and anyone can now participate and send ether to the contract. Participation is a one-time activity, and prior, a user must create a personal 32-byte random number and hash it using the formula in Figure \ref{figure:hashedRandomNumberFormula}. The user must safeguard their random number and not reveal it to anyone else. It will be used during the revelation phase to confirm their participation in the fundraiser, and during the end function, to uniquely identify the winning participant.
 
-Each entry costs a fixed value determined by the Seedom team at kickoff. The cost of a single entry will be globally affordable to allow those beneath the international poverty line of \$1.90 (USD) per day \cite{1} to participate, with a minimum entry being less than the Ether equivalent of this amount. Each entry increases the likelihood that you will be selected by both the community and the charity to receive a split percentage of all of the ether contributed by the contract, similar to a raffle. The winner will be invited to participate in the physical fundraiser event after charity end. Entries are non-refundable except after fundraiser cancellation and need confirmation during the revelation phase for winner consideration. Partial entries are immediately refunded during participation or through additional funding afterward. The owner and the charity are never allowed to participate.
+Each entry costs a fixed value determined by the Seedom team at kickoff. The cost of a single entry will be globally affordable to allow those beneath the international poverty line of \$1.90 (USD) per day \cite{1} to participate, with a minimum entry being less than the ether equivalent of this amount. Each entry increases the likelihood that you will be selected by both the community and the charity to receive a split percentage of all of the ether contributed by the contract, similar to a raffle. The winner will be invited to participate in the physical fundraiser event after charity end. Entries are non-refundable except after fundraiser cancellation and need confirmation during the revelation phase for winner consideration. Partial entries are immediately refunded during participation or through additional funding afterward. The owner and the charity are never allowed to participate.
 
 Along with the hashed random and any ether, a user can optionally associate their Ethereum address with a short alias and their email address. These three values are stored off-chain in Seedom's secure database servers and forgotten by the time the next fundraiser begins to protect participant privacy and keep our system compliant of data privacy legislation such as the European Union's General Data Protection Regulation (GDPR). For the first release, aliases are used to render a list of recent participants. The email address is only used to invite the community-chosen winning supporter to the physical fundraiser during the last few days.
 
@@ -271,7 +277,7 @@ There is an inherent burden that comes with a sizable influx of funds to any ind
 
 After the end function completes, the charity, winning participant, and Seedom can now withdraw their funds by calling the withdraw function. These funds are available for withdrawing at any time and will never expire. As a best practice, Seedom recommends that everyone withdraw their funds as soon as possible.
 
-Now that the Ethereum fundraiser is over, a physical fundraiser will take place near the headquarters of the benefiting charity to continue bringing awareness and contribution to their cause. This event will be open to the public, and everyone is welcome to attend. During the event, the Seedom team will assist the charity in their ability to accept direct Ether donations and native fiat funds as well. Shortly after, the timeline will begin again with a different charity.
+Now that the Ethereum fundraiser is over, a physical fundraiser will take place near the headquarters of the benefiting charity to continue bringing awareness and contribution to their cause. This event will be open to the public, and everyone is welcome to attend. During the event, the Seedom team will assist the charity in their ability to accept direct ether donations and native fiat funds as well. Shortly after, the timeline will begin again with a different charity.
 
 As the administration fund grows, the Seedom team will create a volunteer event during the physical fundraising phase to complement the charity fundraiser. The winning participant or participants will be invited by email, if provided to Seedom, to an all-expenses-paid trip to both the volunteer and fundraiser events, wherever they may be in the world. Moreover, Seedom will send some of our team members along to assist the charity directly.
 
