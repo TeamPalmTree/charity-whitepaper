@@ -140,7 +140,7 @@ Seedom will kickoff a new ether-raiser for a new charity bimonthly, or roughly e
 
 \subsection{Ether-raiser Kickoff}
 
-An ether-raiser begins with the Seedom team kicking it off through our smart contract by providing several parameters defined in Table \ref{tab:etherraiserKickoffParameters}. This includes the selected charity, ether split percentages, the cost of an entry, and the timing of certain events. These parameters are immutable once provided and no one can change them until the ether-raiser has ended.
+An ether-raiser begins with the Seedom team deploying a new Seedom contract and providing several immutable parameters defined in Table \ref{tab:etherraiserKickoffParameters}. This includes the selected charity, ether split percentages, the cost of an entry, and the timing of certain events.
 
 \begin{table}[H]
 \begin{center}
@@ -182,7 +182,7 @@ After the charity has submitted their hashed random number, the ether-raiser is 
 
 Each entry costs a fixed value determined by the Seedom team at kickoff. The cost of a single entry, including Ethereum transaction fees, will be globally affordable to allow those beneath the international poverty line of \$1.90 (USD) per day \cite{1} to participate, with a minimum entry being less than the ether equivalent of this amount. Each entry increases the likelihood that you will be selected by both the community and the charity to receive a split percentage of all of the ether contributed by the contract, similar to a raffle. The winner will be invited to participate in the physical ether-raiser event after charity end. Entries are non-refundable except after ether-raiser cancellation and need confirmation during the revelation phase for winner consideration. Partial entries are immediately refunded during participation or through additional funding afterward. The owner and charity addresses are prohibited from participation in the smart contract.
 
-Along with the hashed random and any ether, a user can optionally associate their Ethereum address with a short alias and their email address. These three values are stored off-chain in Seedom's secure database servers and forgotten by the time the next ether-raiser begins to protect participant privacy and keep our system compliant of data privacy legislation, such as the European Union's General Data Protection Regulation. For the first release, aliases are used to render a list of recent participants. The email address is only used to invite the community-chosen winning supporter to the physical ether-raiser during the last few days.
+Along with the hashed random and any ether, a user can optionally associate their Ethereum address with an email address. These two values are stored off-chain and can be forgotten at any time to protect participant privacy and keep our system compliant of data privacy legislation, such as the European Union's General Data Protection Regulation. An email address is only used to notify users of upcoming ether-raisers, reveal and end times, and to congratulate the community-chosen winner.
 
 Ether can be sent along with participation requests to obtain initial entries, and more can be sent afterward through the fallback function for the same purpose. However, additional calls to the participate function will fail as participant hashed random numbers are immutable. There is no limit to the number of entries a participant can acquire, and the participant can check the number of entries they or any other participant has through the contract at any time.
 
@@ -223,9 +223,9 @@ The charity must be used as a trusted third party to provide a final random numb
 
 \subsubsection{Winning Participant Selection}
 
-After crowd-sourced random generation, but as part of the end call from the charity, the resulting number will be modded with the total number of revealed entries to determine an index into the global list of revealed entries. A discrete cumulative density function of entries is generated to assist with this process, and the participant associated with the entry at this index is the winning supporter. As the last step in this call, a map of balances updates with owed funds to the charity, winner, and owner. Ether is not immediately distributed to these wallets as to prevent invalid or malignant addresses from reverting the end function in the Ethereum Virtual Machine. The contract guarantees a winner during every bimonthly ether-raiser unless canceled.
+After crowd-sourced random generation, but as part of the end call from the charity, the resulting number will be modded with the total number of revealed entries to determine an index into the global list of revealed entries. A discrete cumulative density function of entries is generated to assist with this process, and the participant associated with the entry at this index is the winning supporter. Ether is not immediately distributed to these wallets as to prevent invalid or malignant addresses from reverting the end function in the Ethereum Virtual Machine. The contract guarantees a winner during every bimonthly ether-raiser unless canceled. The participant's random and address serve as the pseudo-unique identifier of the winner.
 
-After winning participant selection, but also as part of end call, a contract event will be broadcast that includes the participant's address, the participant's random number, and the total reward amounts calculated for the charity, winner, and Seedom. The participant's random, their alias, and their address serve as the pseudo-unique identifier of the winner.
+After the end function completes, the charity, winning participant, and Seedom can now withdraw their funds by calling the withdraw function. These funds are available for withdraw until the destruct time of the contract, six ether-raisers later. Value left int the contract after it is destroyed will be sent to Seedom. As a best practice, Seedom recommends that everyone withdraw their funds as soon as possible.
 
 \begin{figure}[H]
 \begin{center}
@@ -237,9 +237,9 @@ After winning participant selection, but also as part of end call, a contract ev
 
 \subsection{Ether-raiser Cancellation}
 
-At any time after kickoff, but before charity seed, both the charity and the owner can cancel the ether-raiser. Cancellation is a simple process that refunds all participant entries obtained during the participation phase. The contract map of balances updates with these refunds. After the cancellation function is complete, users may withdraw their refunds using the withdraw function. Gas costs are non-refundable.
+At any time after kickoff, but before charity seed, both the charity and the owner can cancel the ether-raiser. Cancellation is a simple process that refunds all participant entries obtained during the participation phase. After the cancellation function is complete, users may check their balance with the balance function and withdraw the entirety of their balance with the withdraw function. Gas costs are non-refundable.
 
-After the charity calls the end function, cancellation is impossible as the appropriation of funds in the map of balances is complete. However, if the charity fails to end a ether-raiser before the expiration time, the cancel function becomes open to the charity, the owner, and the entire community. This time-sensitive command ensures that every entry is refundable in the improbable event that something catastrophic happens to the owner, the charity, or both.
+After the charity calls the end function, cancellation is impossible; however, if the charity fails to end a ether-raiser before the expiration time, the cancel function becomes open to the charity, the owner, and the entire community. This time-sensitive command ensures that every entry is refundable in the improbable event that something catastrophic happens to the owner, the charity, or both.
 
 \section{Token Sale}
 Never.
@@ -254,7 +254,7 @@ An order statistic tree \cite{5} will replace the dynamic participant storage ar
 
 \subsubsection{Live Participants Leaderboard}
 
-As more users participate, a live leaderboard will be available that tracks, in descending order, each participant's number of entries. If a user does not provide an alias during participation, their sending address is displayed. If the user does provide an alias, that instead. While not encouraged, participants are free to use this as a way of impromptu advertising. So if Company X wants their name to show on the Seedom homepage, they can buy the most entries to display themselves at the top of the leaderboard.
+As more users participate, a live leaderboard will be available that tracks, in descending order, each participant's number of entries. To allow for a leaderboard, an alias will be captured during participation. If a user does not provide an alias during participation, their sending address is displayed. While not encouraged, participants are free to use this as a way of impromptu advertising. So if Company X wants their name to show on the Seedom homepage, they can buy the most entries to display themselves at the top of the leaderboard.
 
 \subsection{Enhanced Random Number Generation Security}
 
@@ -278,9 +278,7 @@ There is an inherent burden that comes with a sizable influx of funds to any ind
 
 \subsubsection{Physical Ether-raiser Phase}
 
-After the end function completes, the charity, winning participant, and Seedom can now withdraw their funds by calling the withdraw function. These funds are available for withdrawing at any time and will never expire. As a best practice, Seedom recommends that everyone withdraw their funds as soon as possible.
-
-Now that the ether-raiser is over, a physical fundraiser will take place near the headquarters of the benefiting charity to continue bringing awareness and contribution to their cause. This event will be open to the public, and everyone is welcome to attend. During the event, the Seedom team will assist the charity in their ability to accept direct ether donations and native fiat funds as well. Shortly after, the timeline will begin again with a different charity.
+After the end of an ether-raiser, a physical fundraiser can take place near the headquarters of the benefiting charity to continue bringing awareness and contribution to their cause. This event will be open to the public, and everyone is welcome to attend. During the event, the Seedom team will assist the charity in their ability to accept direct ether donations and native fiat funds as well. Shortly after, the timeline will begin again with a different charity.
 
 As the administration fund grows, the Seedom team will create a volunteer event during the physical fundraising phase to complement the charity ether-raiser. The winning participant or participants will be invited by email, if provided to Seedom, to a trip to both the volunteer and ether-raising events, wherever they may be in the world. Moreover, Seedom will send some of our team members along to assist the charity directly.
 
