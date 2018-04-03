@@ -179,9 +179,9 @@ maxParticipants & uint256 & max participants to prevent out-of-gas transactions 
 The NPO's wallet address must be posted publicly through their social channels for attestation of identity before the NPO begins their fundraiser.\\\\
 The split percentages are numbers out of 1000 to allow the expression of a one decimal place and must sum to 1000. The Seedom owner secret is a hash of a 32-byte message, generated using the secret generation formula in Figure \ref{figure:secretGenerationFormula}. This message will be revealed to the world after the NPO reveals their message after the fundraiser end time.\\\\
 No participation or raising of entries can occur after the end time. Instead, the NPO and Seedom must reveal their messages to the world, which in turn selects a participant to receive the participant reward.\\\\
-The expire time is always set to the end of the recap phase, allowing time for the NPO and Seedom messages to be revealed. See section \ref{sec:seedomRevealsTheirMessageAndEndsTheFundraiser} for details.\\\\
+The expire time is always set to the end of the recap phase, allowing time for the NPO and Seedom messages to be revealed. See Section \ref{sec:seedomRevealsTheirMessageAndEndsTheFundraiser} for details.\\\\
 The destruct time is set well into the future, allowing Seedom to self-destruct legacy contracts. See Section \ref{sec:contractSelfDestruction} for more details.\\\\
-The max participants number is a safeguard against running out of gas during the end() function, which calculates the crowd-sourced random number and selects a participant to reward.
+The max participants number is a safeguard against running out of gas during the end() function, which calculates the crowd-sourced random message and selects a participant to reward.
 
 \begin{figure}[H]
 \begin{center}
@@ -201,9 +201,9 @@ Shortly after the Seedom contract is deployed, the chosen NPO must create an add
 
 \subsubsection{On the Initial Collection of Secrets}
 
-Two secrets, one from Seedom during construction of the Seedom contract, and one from the NPO through a call to the begin() function, are kept publicly in Seedom contract storage and allow for the participation and voting phase to begin. These secrets are collected prior to participation and, together with public messages collected during the participation phase, are used to generate a crowd-sourced random number that selects a participant to be rewarded.\\\\
+Two secrets, one from Seedom during construction of the Seedom contract, and one from the NPO through a call to the begin() function, are kept publicly in Seedom contract storage and allow for the participation and voting phase to begin. These secrets are collected prior to participation and, together with public messages collected during the participation phase, are used to generate a crowd-sourced random message that selects a participant to be rewarded.\\\\
 The NPO and Seedom must both safeguard their messages to the world as they would their Ethereum wallet private key by not revealing it to anyone outside of their organization. Both messages are revealed to the world after the end time of the fundraiser with the reveal() and end() functions to override any form of miner manipulation during the collection of public messages during the participation phase. If the NPO does not begin() their fundraiser with their secret before the end time, the fundraiser is inoperable, with all participants receiving refunds upon cancellation. See Section \ref{sec:fundraiserCancellation} for more information about the cancellation process.\\\\
-For more details on how the crowd-sourced random number generation process works, see Section \ref{sec:secureDeterministicCrowdSourcedRandomNumberGeneration}.
+For more details on how the crowd-sourced random message generation process works, see Section \ref{sec:secureDeterministicCrowdSourcedRandomMessageGeneration}.
 
 \subsection{Participants Obtain Entries and Provide Public Messages}
 
@@ -231,34 +231,34 @@ After the fundraiser end time, users can no longer participate or raise addition
 \subsection{Seedom Reveals Their Message and Ends the Fundraiser}
 \label{sec:seedomRevealsTheirMessageAndEndsTheFundraiser}
 
-The end() function becomes available to Seedom after the NPO reveals their message. Within this function, the crowd-sourced random number is generated, a participant is selected using this random number, and Ether is split and allocated to the NPO, selected participant, and Seedom.
+The end() function becomes available to Seedom after the NPO reveals their message. Within this function, the crowd-sourced random message is generated, a participant is selected using this random message, and Ether is split and allocated to the NPO, selected participant, and Seedom.
 
-\subsubsection{Secure Deterministic Crowd-sourced Random Number Generation}
-\label{sec:secureDeterministicCrowdSourcedRandomNumberGeneration}
+\subsubsection{Secure Deterministic Crowd-sourced Random Message Generation}
+\label{sec:secureDeterministicCrowdSourcedRandomMessageGeneration}
 
-Because Ethereum is a Turing complete deterministic world computer, mining nodes cannot generate individual random numbers as they would never be able to reach consensus. Many decentralized applications decide to use a miner-defined seed value, such as the block-hash, timestamp, or other value to generate a random number. This technique is usually flawed given a miner's ability to ignore or reorder transactions and avoid broadcasting blocks entirely. It opens up the potential for the miner to receive additional chances of winning, even with deincentivization enhancements. Other method of random number generation include the usage of an external oracle, which requires a participant to trust the availability and validity of a such service.\\\\
-Seedom's method is similar to that of the RANDAO \cite{2}, without the the second phase of collecting valid secrets. The Seedom contract receives two hashed messages, or secrets, guarenteed to be from Seedom and the NPO. Once these secrets are stored on-chain, the collection of public messages from participants can occur during the participation and voting phase. After the fundraiser end time, Seedom and the NPO reveal their secrets, which are again stored on-chain after they are confirmed, using the formula in Figure \ref{figure:secretGenerationFormula}. All of the participant messages are XORed together and this result is XORed again with the NPO and Seedom revealed messages to produce a crowd-sourced random number used to select a participant to reward, a process displayed visually in Figure \ref{figure:crowdsourcedRandomNumberGeneration}.
+Because Ethereum is a Turing complete deterministic world computer, mining nodes cannot generate individual random messages as they would never be able to reach consensus. Many decentralized applications decide to use a miner-defined seed value, such as the block-hash, timestamp, or other value to generate a random message. This technique is usually flawed given a miner's ability to ignore or reorder transactions and avoid broadcasting blocks entirely. It opens up the potential for the miner to receive additional chances of winning, even with deincentivization enhancements. Other method of random message generation include the usage of an external oracle, which requires a participant to trust the availability and validity of a such service.\\\\
+Seedom's method is similar to that of the RANDAO \cite{2}, without the the second phase of collecting valid secrets. The Seedom contract receives two hashed messages, or secrets, guarenteed to be from Seedom and the NPO. Once these secrets are stored on-chain, the collection of public messages from participants can occur during the participation and voting phase. After the fundraiser end time, Seedom and the NPO reveal their secrets, which are again stored on-chain after they are confirmed, using the formula in Figure \ref{figure:secretGenerationFormula}. All of the participant messages are XORed together and this result is XORed again with the NPO and Seedom revealed messages to produce a crowd-sourced random message used to select a participant to reward, a process displayed visually in Figure \ref{figure:crowdsourcedRandomMessageGeneration}.
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=1.0\textwidth]{./graphics/crowd-sourced-random-number-generation.pdf}
-\caption{Crowd-sourced random number generation}
-\label{figure:crowdsourcedRandomNumberGeneration}
+\includegraphics[width=1.0\textwidth]{./graphics/crowd-sourced-random-message-generation.pdf}
+\caption{Crowd-sourced random message generation}
+\label{figure:crowdsourcedRandomMessageGeneration}
 \end{center}
 \end{figure}
 
-Many forms of manipulation can occur in the participant-generated portion of the crowd-sourced random number. Manipulation can occur from participants, with access to the entire set of participant messages, and miners, due to miner transaction and block flexibility. The cost of a Seedom entry combined with Ethereum transaction fees are not high enough to deincentivize participants or miners from attempting manipulation.\\\\
-However, because the NPO and Seedom have seeded additional independent sources of randomization with their revealed messages, such efforts will be in vain. Neither Seedom nor the NPO will know of the other's message until their are reveled. An attacker trying to rig the selection of a participant for reward has to know the secret messages of both Seedom and the NPO and has to manipulate the participant-generated portion of the crowd-sourced random number.\\\\
-It is important, however, to increase the entropy of the participant-generated randomization effort as much as possible to decentralize the overall random number generation process. Section \ref{sec:increasingTheEntropyOfParticipantGeneratedRandomization} describes future efforts underway to increase this entropy.
+Many forms of manipulation can occur in the participant-generated portion of the crowd-sourced random message. Manipulation can occur from participants, with access to the entire set of participant messages, and miners, due to miner transaction and block flexibility. The cost of a Seedom entry combined with Ethereum transaction fees are not high enough to deincentivize participants or miners from attempting manipulation.\\\\
+However, because the NPO and Seedom have seeded additional independent sources of randomization with their revealed messages, such efforts will be in vain. Neither Seedom nor the NPO will know of the other's message until their are reveled. An attacker trying to rig the selection of a participant for reward has to know the secret messages of both Seedom and the NPO and has to manipulate the participant-generated portion of the crowd-sourced random message.\\\\
+It is important, however, to increase the entropy of the participant-generated randomization effort as much as possible to decentralize the overall random message generation process. Section \ref{sec:increasingTheEntropyOfParticipantGeneratedRandomization} describes future efforts underway to increase this entropy.
 
 \subsubsection{Participant Selection}
 
-After the crowd-sourced random number is generated, it is modded with the total number of entries across all participants to determine an index into the total list of entries. During this process, a discrete cumulative density function (CDF) of entries is established by participant. With this CDF, a binary search is performed to determine the associated participant for this index. The participant associated with the entry at this index is stored as the selected participant on-chain, allocating the participant's reward Ether. Ether is then allocated to the NPO and the Seedom contract owner (Seedom) at the end of the end() function.
+After the crowd-sourced random message is generated, it is modded with the total number of entries across all participants to determine an index into the total list of entries. During this process, a discrete cumulative density function (CDF) of entries is established by participant. With this CDF, a binary search is performed to determine the associated participant for this index. The participant associated with the entry at this index is stored as the selected participant on-chain, allocating the participant's reward Ether. Ether is then allocated to the NPO and the Seedom contract owner (Seedom) at the end of the end() function.
 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=1.0\textwidth]{./graphics/rewarded-participant-selection.pdf}
-\caption{Rewarded participant selection for crowd-sourced random number 42}
+\caption{Rewarded participant selection for crowd-sourced random message 42}
 \label{figure:participantSelection}
 \end{center}
 \end{figure}
@@ -297,14 +297,14 @@ An order statistic tree \cite{5} may replace the dynamic participant storage arr
 
 As more users participate, a live leaderboard will be available that tracks, in descending order, each participant's number of entries. To allow for a leaderboard, an alias will be captured during participation. If a user does not provide an alias during participation, their sending address will be displayed. While not encouraged, participants are free to use this as a way of impromptu advertising. So if Company X wants their name to show within Seedom DAPP, they can buy many entries to display themselves at the top of the leaderboard.
 
-\subsection{Enhanced Random Number Generation Security}
+\subsection{Enhanced Random Message Generation Security}
 
-Miner manipulation of the crowd-sourced random number generation process requires the Seedom team to adapt the random-generation algorithm in Figure \ref{figure:crowdsourcedRandomNumberGeneration} to stay ahead of potential security issues.
+Miner manipulation of the crowd-sourced random message generation process requires the Seedom team to adapt the random-generation algorithm in Figure \ref{figure:crowdsourcedRandomMessageGeneration} to stay ahead of potential security issues.
 
 \subsubsection{Increasing the Entropy of Participant-generated Randomization}
 \label{sec:increasingTheEntropyOfParticipantGeneratedRandomization}
 
-In the first release of Seedom, participant messages considered in the crowd-sourced random number generation process are XORed in order of time of participation during the participation and voting phase. Randomization of the order of the XORed participant messages using the XOR of the NPO and Seedom messages as a seed to this randomization would provide additional entropy and protection against participant and miner manipulation of the final random number.
+In the first release of Seedom, participant messages considered in the crowd-sourced random message generation process are XORed in order of time of participation during the participation and voting phase. Randomization of the order of the XORed participant messages using the XOR of the NPO and Seedom messages as a seed to this randomization would provide additional entropy and protection against participant and miner manipulation of the final random message.
 
 \subsection{Handling Fund Growth}
 
@@ -340,6 +340,12 @@ Vose's Alias Method & $\Theta(n)$ & $\Theta(1)$ & $\Theta(n)$ \\ \hline
 
 The initial release of Seedom uses a proof-of-participation method that only looks at the currently running Seedom contract for evidence of user participation. This proof will be enhanced to include all Seedom contracts that have not been self-destructed. Each participant will receive a single vote per fundraiser, independent of the number of entries obtained, allowing engaged Seedom participants a greater effect on the future of Seedom and the NPOs the team ultimately choose.
 
+\subsubsection{Reducing Volatility with Maker Dai}
+
+Most cryptocurrencies, including Bitcoin and Ether, are fairly volatile assets. The value of a Bitcoin often experiences very large fluctuations, rising or falling by as much as 25\% in a single day and 3x in a month \cite{10}. Over the time period of a Seedom fundraiser, the price of Ether, compared to fiat currencies such as the U.S. dollar, might change significantly.\\\\
+Seedom will likely switch to a more stable cryptocurrency, such as Maker Dai, for all smart contract transactions. The Maker platform is decentralized and stabilizes the value of Dai to one U.S. dollar using external market mechanisms and economic incentives. Once generated, Dai can be used in the same manner as any other cryptocurrency: it can be freely sent to others, used as payments for goods and services, or
+held as long term savings \cite{9}. 
+
 \subsubsection{Physical Fundraisers}
 
 During the recap phase after a fundraiser ends, a physical fundraiser and volunteering event can take place near the headquarters of the benefiting NPO to continue bringing awareness, contributions, and volunteers to their cause. This event will be open to the public, and everyone is welcome to attend.\\\\
@@ -347,7 +353,7 @@ The rewarded participant or participants will be invited by email, if provided t
 
 \section{Team Members}
 
-The Seedom team is geographically decentralized and comprised of philanthropic entrepreneurs and enthusiasts from various sectors of the technology industry. The current employers of all team members have no affiliation with Seedom.
+The Seedom team is diverse, geographically decentralized, and comprised of philanthropic entrepreneurs and enthusiasts from various sectors of the technology industry. The current employers of all team members have no affiliation with Seedom.
 
 \subsubsection{Alexander Groleau}
 \begin{minipage}{\textwidth}
