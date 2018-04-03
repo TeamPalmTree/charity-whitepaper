@@ -70,7 +70,7 @@ Seedom is an Ethereum decentralized application (DAPP) for raising awareness and
 
 \subsection{NPO Selection Methodology}
 
-Seedom is a fun and entertaining platform for seeding the future of philanthropy through the identification and funding of NPOs that can drive the future of decentralization. Decentralization can take many forms outside of the technical interpretation and the underpinings of Ethereum. It includes, but is not limited to, the decentralization of power, knowledge, money, ownership, and control to as many people as possible. Seedom provides a funding mechanism for these NPOs to persist, meet their long-term goals, and decentralize our future.\\\\
+Seedom is a fun and entertaining platform for seeding the future of philanthropy through the identification and funding of NPOs that can drive the future of decentralization. Decentralization can take many forms outside of the technical interpretation and the underpinnings of Ethereum. It includes, but is not limited to, the decentralization of power, knowledge, money, ownership, and control to as many people as possible. Seedom provides a funding mechanism for these NPOs to persist, meet their long-term goals, and decentralize our future.\\\\
 Well before a Seedom fundraiser begins, our team will accept suggestions from NPOs and our global community of participants. NPOs can suggest themselves for a future fundraiser to Seedom directly by emailing team@seedom.io. Participants can make future NPO suggestions via our polling smart contract, deployed alongside each Seedom fundraiser. The Seedom team will have the ultimate discretion of NPO selection, identifying an organization that is decentralizing, legitimate, active, exacting, and cooperative.
 
 \begin{itemize}
@@ -111,7 +111,7 @@ Many methods exist for raising funds for NPOs. Outside of direct donations, some
 
 \subsubsection{Crowdfunding}
 
-Crowdfunding is one of the best ways to raise funds for a NPO or cause. Unfortunately, most of the popular fundraising platforms are not on Ethereum and therefore receive none of the many benefits native to the platform. When using a centralized system, such as GoFundMe, one is relying on it to move funds from donors to a NPO or other beneficiary.\\\\
+Crowdfunding is one of the best ways to raise funds for an NPO or cause. Unfortunately, most of the popular fundraising platforms are not on Ethereum and therefore receive none of the many benefits native to the platform. When using a centralized system, such as GoFundMe, one is relying on it to move funds from donors to an NPO or other beneficiaries.\\\\
 Initially, GoFundMe does not vet fundraisers, relying on fraud prevention specialists to protect their users. Without trustless transaction transparency, it is impossible to know if user contributions ever made it to the cause. Moreover, many crowdfunding companies charge 8\% fees or higher for any donation, which includes a hefty payment processing fee. Being reliant on traditional payment processors, GoFundMe is only available in a handful of counties.
 
 \subsubsection{Matching, Drives, Sales, and Auctions}
@@ -121,7 +121,7 @@ Because of the various requirements and overheads involved with each of these te
 
 \subsubsection{Events}
 
-Fundraising events are social gatherings that raise funds and awareness for a NPO. Often overlooked, face to face communication is indispensable to furthering a cause. However, these gathers can get expensive when selecting a venue, hiring temporary staff, providing food, creating informative materials, etc. Seedom adopts this face-to-face approach at the end of each fundraiser in the form of fundraising and volunteering events. At this point, the bulk of the funds are raised and distributed, making this final event valuable, but not necessary to the success of the overall fundraiser.
+Fundraising events are social gatherings that raise funds and awareness for an NPO. Often overlooked, face to face communication is indispensable to furthering a cause. However, these gathers can get expensive when selecting a venue, hiring temporary staff, providing food, creating informative materials, etc. Seedom adopts this face-to-face approach at the end of each fundraiser in the form of fundraising and volunteering events. At this point, the bulk of the funds are raised and distributed, making this final event valuable, but not necessary to the success of the overall fundraiser.
 
 \subsubsection{Lotteries \& Raffles}
 
@@ -137,7 +137,7 @@ Hypergive creates a direct and secure funding connection between donators and ho
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.4\textwidth]{../seedom-assets/flow/process-vertical-dark.pdf}
-\caption{Visual overview of the Seedom fundraiser}
+\caption{A visual overview of the Seedom fundraiser}
 \end{center}
 \end{figure}
 
@@ -155,7 +155,7 @@ Seedom will deployment a new fundraiser for a new NPO bimonthly, or roughly ever
 
 \subsubsection{Seedom Contract}
 
-The Seedom contract is deployed with several immutable fundraiser parameters. This includes the selected NPO, Ether split percentages, Seedom's secret, the cost of an entry, the timing of certain events, and the max number of participants.
+The Seedom contract deploys with several immutable fundraiser parameters, including the selected NPO, Ether split percentages, Seedom's secret, the cost of an entry, the timing of specific events, and the max number of participants.
 
 \begin{table}[H]
 \begin{center}
@@ -167,10 +167,10 @@ npoSplit & uint256 & the \% of funds given to the NPO \\ \hline
 participantSplit & uint256 & the \% of funds given to a selected participant \\ \hline
 ownerSplit & uint256 & the \% of funds given to the contract owner (Seedom) \\ \hline
 ownerSecret & bytes32 & an encrypted message from the contract owner (Seedom) \\ \hline
-valuePerEntry & uint256 & unix timestamp of the start of revelation phase \\ \hline
-endTime & uint256 & unix timestamp of the end of participation phase \\ \hline
-expireTime & uint256 & unix timestamp of the expiration of the fundraiser \\ \hline
-destructTime & uint256 & unix timestamp of when the contract can be destroyed \\ \hline
+valuePerEntry & uint256 & UNIX timestamp of the start of revelation phase \\ \hline
+endTime & uint256 & UNIX timestamp of the end of participation phase \\ \hline
+expireTime & uint256 & UNIX timestamp of the expiration of the fundraiser \\ \hline
+destructTime & uint256 & UNIX timestamp of allowed contract destruction \\ \hline
 maxParticipants & uint256 & max participants to prevent out-of-gas transactions \\ \hline
 \end{tabular}
 \caption{Fundraiser deployment parameters}
@@ -181,9 +181,9 @@ maxParticipants & uint256 & max participants to prevent out-of-gas transactions 
 The NPO's wallet address must be posted publicly through their social channels for attestation of identity before the NPO begins their fundraiser.\\\\
 The split percentages are numbers out of 1000 to allow the expression of a one decimal place and must sum to 1000. The Seedom owner secret is a hash of a 32-byte message, generated using the secret generation formula in Figure \ref{figure:secretGenerationFormula}. This message will be revealed to the world after the NPO reveals their message after the fundraiser end time.\\\\
 No participation or raising of entries can occur after the end time. Instead, the NPO and Seedom must reveal their messages to the world, which in turn selects a participant to receive the participant reward.\\\\
-The expire time is always set to the end of the recap phase, allowing time for the NPO and Seedom messages to be revealed. See Section \ref{sec:seedomRevealsTheirMessageAndEndsTheFundraiser} for details.\\\\
+The expire time is set to the end of the recap phase, allowing time for the NPO and Seedom to reveal their messages. See Section \ref{sec:seedomRevealsTheirMessageAndEndsTheFundraiser} for details.\\\\
 The destruct time is set well into the future, allowing Seedom to self-destruct legacy contracts. See Section \ref{sec:contractSelfDestruction} for more details.\\\\
-The max participants number is a safeguard against running out of gas during the end() function, which calculates the crowd-sourced random message and selects a participant to reward.
+The max participants count is a safeguard against running out of gas during the end() function, which calculates the crowd-sourced random message and selects a participant to reward.
 
 \begin{figure}[H]
 \begin{center}
@@ -199,32 +199,33 @@ A polling contract will be deployed alongside the Seedom contract for the same p
 
 \subsection{NPO Begins Their Fundraiser}
 
-Shortly after the Seedom contract is deployed, the chosen NPO must create an additional 32-byte message value and hash it into a secret, using the formula in Figure \ref{figure:secretGenerationFormula}. The NPO sends this secret to the begin() function, and, upon confirmation, the community may now participate. The begin() function will only accept secrets from the chosen NPO. This message is generated using the secret generation formula in Figure \ref{figure:secretGenerationFormula} and will be revealed just after the fundraiser end time.
+Shortly after the Seedom contract deploys, the chosen NPO must create an additional 32-byte message value and hash it into a secret, using the formula in Figure \ref{figure:secretGenerationFormula}. The NPO sends this secret to the begin() function, and, upon confirmation, the community may now participate. The begin() function will only accept secrets from the chosen NPO. This message is generated using the secret generation formula in Figure \ref{figure:secretGenerationFormula} and will be revealed just after the fundraiser end time.
 
 \subsubsection{On the Initial Collection of Secrets}
 
-Two secrets, one from Seedom during construction of the Seedom contract, and one from the NPO through a call to the begin() function, are kept publicly in Seedom contract storage and allow for the participation and voting phase to begin. These secrets are collected prior to participation and, together with public messages collected during the participation phase, are used to generate a crowd-sourced random message that selects a participant to be rewarded.\\\\
-The NPO and Seedom must both safeguard their messages to the world as they would their Ethereum wallet private key by not revealing it to anyone outside of their organization. Both messages are revealed to the world after the end time of the fundraiser with the reveal() and end() functions to override any form of miner manipulation during the collection of public messages during the participation phase. If the NPO does not begin() their fundraiser with their secret before the end time, the fundraiser is inoperable, with all participants receiving refunds upon cancellation. See Section \ref{sec:fundraiserCancellation} for more information about the cancellation process.\\\\
-For more details on how the crowd-sourced random message generation process works, see Section \ref{sec:secureDeterministicCrowdSourcedRandomMessageGeneration}.
+Two secrets, one from Seedom during deployment of the Seedom contract, and one from the NPO through a call to the begin() function, are kept publicly in Seedom contract storage and allow for the participation and voting phase to begin. These collected secrets, together with public messages provided during the participation and voting phase, are used to generate a crowd-sourced random message that selects a participant to reward.\\\\
+The NPO and Seedom must both safeguard their messages as they would their Ethereum wallet private key by not revealing it to anyone outside of their organization. Both messages are made public to the world after the end time of the fundraiser with the reveal() and end() functions to override any form of miner manipulation during the collection of public messages during the participation phase.\\\\
+If the NPO does not begin() their fundraiser with their secret before the end time, the fundraiser is inoperable, with all participants receiving refunds upon cancellation. See Section \ref{sec:fundraiserCancellation} for more information about the cancellation process. For more details on how the crowd-sourced random message generation process works, see Section \ref{sec:secureDeterministicCrowdSourcedRandomMessageGeneration}.
 
 \subsection{Participants Obtain Entries and Provide Public Messages}
 
-After the NPO has submitted their secret to begin(), the fundraiser is considered open, and anyone can now participate and obtain entries with Ether. Participation is the one-time per user contribution of a 32-byte message to the world with enough Ether for at least one entry.\\\\
-Each entry costs a fixed value determined by the Seedom team during deployment of the Seedom contract. The cost of a single entry, including Ethereum transaction fees, will be globally affordable to allow those beneath the international poverty line of \$1.90 (USD) per day \cite{1} to participate, with a minimum entry being less than the Ether equivalent of this amount. Each entry obtained by a participant increases the likelihood that the participant will be selected by all participants, the NPO, and Seedom to receive the participant split percentage of all of the Ether contributed to the Seedom contract.\\\\
-Entries are non-refundable except in the case of fundraiser cancellation. Partial entries are immediately refunded during immediately participation. The owner and NPO addresses are prohibited from participation in the Seedom and polling contract.
+After the NPO has submitted their secret to begin(), the fundraiser is considered open, and anyone can now participate and obtain entries with Ether using the participate() function. Participation is the one-time per user contribution of a 32-byte message to the world with enough Ether for at least one entry.\\\\
+Each entry costs a fixed value determined by the Seedom team during deployment of the Seedom contract. The cost of a single entry, including Ethereum transaction fees, will be globally affordable to allow those beneath the international poverty line of \$1.90 (USD) per day \cite{1} to participate, with a minimum entry being less than the Ether equivalent of this amount. Each entry obtained by a participant increases the likelihood that the participant is selected by all participants, the NPO, and Seedom to receive the participant split of all of the Ether contributed to the Seedom contract.\\\\
+Entries are non-refundable except in the case of fundraiser cancellation. Partial entries immediately refund at the end of the participate() function. Seedom and NPO wallet addresses cannot participate in the Seedom and polling contracts.
 
 \subsubsection{Email Addresses}
 
-While participating within the Seedom DAPP, a user can optionally provide their email address, which is securely passed to MailChimp by the DAPP along with their Ethereum public wallet address for storage. This will sign the user up to the Seedom mailing list. This mailing list is used to notify users of the results of all fundraisers, to announce upcoming fundraisers, and to congratulate selected participants that receive the reward.\\\\
-The email address associated with a rewarded participant's wallet address will never be publicly revealed in order to protect the privacy of the selected participant. A user's email address, and their associated Ethereum wallet address, are forgotten immediately after the user opt-outs out of the mailing list. This protects the user's privacy and keep the Seedom system compliant of data privacy legislation, such as the European Union's General Data Protection Regulation (GDPR). EMAILS GET FORWARDED TO THE CHARITY
+While participating within the Seedom DAPP, a user can optionally provide their email address, which is securely passed to MailChimp by the DAPP along with their Ethereum public wallet address for storage. Participation will sign the user up to the Seedom mailing list. This mailing list is used to notify users of the results of all fundraisers, to announce upcoming fundraisers, and to congratulate selected participants that receive the reward.\\\\
+The email address associated with a rewarded participant's wallet address is never publicly revealed to protect the privacy of the selected participant. A user's email address and their associated Ethereum wallet address are forgotten immediately after the user opt-outs out of the Seedom mailing list. Opting out protects the user's privacy and keeps the Seedom system compliant with data privacy legislation, such as the European Union's General Data Protection Regulation (GDPR).\\\\
+Additionally, email addresses provided to Seedom forward to the currently benefitting NPO. Users can unsubscribe from the NPO's mailing lists at any time.
 
 \subsubsection{Raising Additional Entries}
 
-After a user participates in the Seedom contract, additional entries can be obtained by sending additional Ether through the contract's fallback function. There is no limit to the number of entries a participant can acquire during the participation and voting phase. A participant can check the number of entries they or any other participant has through the Seedom contract or DAPP at any time.
+A user obtains additional entries by sending more Ether through the Seedom contract's fallback function after a user participates with their public message. There is no limit to the number of entries a participant can acquire during the participation and voting phase. A participant can check the number of entries they or any other participant has through the Seedom contract or DAPP at any time.
 
 \subsubsection{Voting on Future NPOs}
 
-After a user participates in the Seedom contract, the user may now vote once on a future NPO through the polling contract. The user can either suggest a new NPO, or vote on an existing suggestion, with either counting as their vote. The polling contract is linked to the Seedom contract, as it uses proof-of-participation to determine if the user is allowed to vote. Currently, proof-of-participation only looks at the currently running Seedom contract; however, this will be enhanced in the future as described in Section \ref{sec:enhancementsToThePollingContract}.
+After a user participates in the Seedom contract, the user may now vote once on a future NPO through the polling contract. The user can either suggest a new NPO, or vote on an existing suggestion, with either counting as their vote. The polling contract is linked to the Seedom contract, as it uses proof-of-participation to determine if the user is allowed to vote. Currently, proof-of-participation only looks at the running Seedom contract; however, this will be enhanced in the future as described in Section \ref{sec:enhancementsToThePollingContract}.
 
 \subsection{NPO Reveals Their Message}
 
@@ -233,13 +234,13 @@ After the fundraiser end time, users can no longer participate or raise addition
 \subsection{Seedom Reveals Their Message and Ends the Fundraiser}
 \label{sec:seedomRevealsTheirMessageAndEndsTheFundraiser}
 
-The end() function becomes available to Seedom after the NPO reveals their message. Within this function, the crowd-sourced random message is generated, a participant is selected using this random message, and Ether is split and allocated to the NPO, selected participant, and Seedom.
+The end() function becomes available to Seedom after the NPO reveals their message. Within this function, the crowd-sourced random message generates, a participant is selected using this random message, and Ether is split and allocated to the NPO, selected participant, and Seedom.
 
 \subsubsection{Secure Deterministic Crowd-sourced Random Message Generation}
 \label{sec:secureDeterministicCrowdSourcedRandomMessageGeneration}
 
-Because Ethereum is a Turing complete deterministic world computer, mining nodes cannot generate individual random messages as they would never be able to reach consensus. Many decentralized applications decide to use a miner-defined seed value, such as the block-hash, timestamp, or other value to generate a random message. This technique is usually flawed given a miner's ability to ignore or reorder transactions and avoid broadcasting blocks entirely. It opens up the potential for the miner to receive additional chances of winning, even with deincentivization enhancements. Other method of random message generation include the usage of an external oracle, which requires a participant to trust the availability and validity of a such service.\\\\
-Seedom's method is similar to that of the RANDAO \cite{2}, without the the second phase of collecting valid secrets. The Seedom contract receives two hashed messages, or secrets, guarenteed to be from Seedom and the NPO. Once these secrets are stored on-chain, the collection of public messages from participants can occur during the participation and voting phase. After the fundraiser end time, Seedom and the NPO reveal their secrets, which are again stored on-chain after they are confirmed, using the formula in Figure \ref{figure:secretGenerationFormula}. All of the participant messages are XORed together and this result is XORed again with the NPO and Seedom revealed messages to produce a crowd-sourced random message used to select a participant to reward, a process displayed visually in Figure \ref{figure:crowdsourcedRandomMessageGeneration}.
+Because Ethereum is a Turing complete deterministic world computer, mining nodes cannot generate individual random messages as they would never be able to reach consensus. Many decentralized applications decide to use a miner-defined seed value, such as the block-hash, timestamp, or other value to generate a random message. This technique is usually flawed given a miner's ability to ignore or reorder transactions and avoid broadcasting blocks entirely. It opens up the potential for the miner to receive additional chances of winning, even with deincentivization enhancements. Other methods of random message generation include the usage of an external oracle, which requires a participant to trust the availability and validity of such service.\\\\
+Seedom's method is similar to that of the RANDAO \cite{2}, without the the second phase of collecting valid secrets. The Seedom contract receives two secrets, or hashed messages, guaranteed to be from Seedom and the NPO. Once these secrets store on-chain, the collection of public messages from participants can occur during the participation and voting phase. After the fundraiser end time, Seedom and the NPO reveal their secrets, which store on-chain after they are confirmed, using the formula in Figure \ref{figure:secretGenerationFormula}. All of the participant messages are XORed together, and this result is XORed again with the NPO and Seedom revealed messages to produce a crowd-sourced random message used to select a participant to reward, a process displayed visually in Figure \ref{figure:crowdsourcedRandomMessageGeneration}.
 
 \begin{figure}[H]
 \begin{center}
@@ -249,8 +250,8 @@ Seedom's method is similar to that of the RANDAO \cite{2}, without the the secon
 \end{center}
 \end{figure}
 
-Many forms of manipulation can occur in the participant-generated portion of the crowd-sourced random message. Manipulation can occur from participants, with access to the entire set of participant messages, and miners, due to miner transaction and block flexibility. The cost of a Seedom entry combined with Ethereum transaction fees are not high enough to deincentivize participants or miners from attempting manipulation.\\\\
-However, because the NPO and Seedom have seeded additional independent sources of randomization with their revealed messages, such efforts will be in vain. Neither Seedom nor the NPO will know of the other's message until their are reveled. An attacker trying to rig the selection of a participant for reward has to know the secret messages of both Seedom and the NPO and has to manipulate the participant-generated portion of the crowd-sourced random message.\\\\
+Many forms of manipulation can occur in the participant-generated portion of the crowd-sourced random message. Manipulation can occur from participants, with access to the entire set of participant messages, and miners, due to miner transaction and block flexibility. The cost of a Seedom entry combined with Ethereum transaction fees is not high enough to deincentivize participants or miners from attempting manipulation.\\\\
+However, because the NPO and Seedom have seeded additional independent sources of randomization with their revealed messages, such efforts will be in vain. Neither Seedom nor the NPO will know of the other's message until revealed. An attacker trying to rig the selection of a participant for reward has to know the secret messages of both Seedom and the NPO and has to manipulate the participant-generated portion of the crowd-sourced random message.\\\\
 It is important, however, to increase the entropy of the participant-generated randomization effort as much as possible to decentralize the overall random message generation process. Section \ref{sec:increasingTheEntropyOfParticipantGeneratedRandomization} describes future efforts underway to increase this entropy.
 
 \subsubsection{Participant Selection}
