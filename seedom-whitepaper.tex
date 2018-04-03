@@ -25,7 +25,7 @@
 
 \title{%
 \begin{center}
-\includegraphics[width=0.8\textwidth]{../seedom-assets/logo/full/seedom-full-black-transparent.pdf}
+\includegraphics[width=0.7\textwidth]{../seedom-assets/logo/full/seedom-full-black-transparent.pdf}
 \end{center}
 \large Seeding the Future of Philanthropy \\[1mm]
 \large An Fundraising System for Non-profit Organizations and Their Supporters \\[1mm]}
@@ -136,7 +136,6 @@ Hypergive creates a direct and secure funding connection between donators and ho
 \begin{center}
 \includegraphics[width=0.4\textwidth]{../seedom-assets/flow/process-vertical-dark.pdf}
 \caption{Visual overview of the Seedom fundraiser}
-\label{figure:fundraiserMonthlyTimeline}
 \end{center}
 \end{figure}
 
@@ -196,7 +195,7 @@ The max participants number is a safeguard against running out of gas during the
 
 A polling contract will be deployed alongside the Seedom contract for the same period, allowing participants of the fundraiser to suggest and vote on future NPOs for us to support. This polling contract is directly linked to the Seedom contract, using it for proof-of-participation, and determining when voting is allowed.
 
-\subsection{NPO Begins their Fundraiser}
+\subsection{NPO Begins Their Fundraiser}
 
 Shortly after the Seedom contract is deployed, the chosen NPO must create an additional 32-byte message value and hash it into a secret, using the formula in Figure \ref{figure:secretGenerationFormula}. The NPO sends this secret to the begin() function, and, upon confirmation, the community may now participate. The begin() function will only accept secrets from the chosen NPO. This message is generated using the secret generation formula in Figure \ref{figure:secretGenerationFormula} and will be revealed just after the fundraiser end time.
 
