@@ -252,11 +252,11 @@ Seedom's method is similar to that of the RANDAO \cite{2}, without the the secon
 
 Many forms of manipulation can occur in the participant-generated portion of the crowd-sourced random message. Manipulation can occur from participants, with access to the entire set of participant messages, and miners, due to miner transaction and block flexibility. The cost of a Seedom entry combined with Ethereum transaction fees is not high enough to deincentivize participants or miners from attempting manipulation.\\\\
 However, because the NPO and Seedom have seeded additional independent sources of randomization with their revealed messages, such efforts will be in vain. Neither Seedom nor the NPO will know of the other's message until revealed. An attacker trying to rig the selection of a participant for reward has to know the secret messages of both Seedom and the NPO and has to manipulate the participant-generated portion of the crowd-sourced random message.\\\\
-It is important, however, to increase the entropy of the participant-generated randomization effort as much as possible to decentralize the overall random message generation process. Section \ref{sec:increasingTheEntropyOfParticipantGeneratedRandomization} describes future efforts underway to increase this entropy.
+It is a goal of the Seedom team, however, to increase the entropy of the participant-generated randomization effort as much as possible to decentralize the overall random message generation process. Section \ref{sec:increasingTheEntropyOfParticipantGeneratedRandomization} describes future efforts to improve this entropy.
 
 \subsubsection{Participant Selection}
 
-After the crowd-sourced random message is generated, it is modded with the total number of entries across all participants to determine an index into the total list of entries. During this process, a discrete cumulative density function (CDF) of entries is established by participant. With this CDF, a binary search is performed to determine the associated participant for this index. The participant associated with the entry at this index is stored as the selected participant on-chain, allocating the participant's reward Ether. Ether is then allocated to the NPO and the Seedom contract owner (Seedom) at the end of the end() function.
+After the crowd-sourced random message generates, it is modded with the number of entries across all participants to determine an index into the total list of entries. During this process, a discrete cumulative density function (CDF) of entries by participant establishes. With this CDF, a binary search is performed to determine and store on-chain the associated participant for this index as the selected participant. Section \ref{sec:improvingTheEfficiencyOfParticipantSelection} outlines a more efficient participant selection algorithm for future implementation.
 
 \begin{figure}[H]
 \begin{center}
@@ -266,39 +266,40 @@ After the crowd-sourced random message is generated, it is modded with the total
 \end{center}
 \end{figure}
 
-\subsubsection{Splitting the Ether}
+\subsubsection{Allocation of Ether}
 
-Ether is allocated using the split percentages the Seedom contract is constructed with, defined in Table \ref{tab:fundraiserDeploymentParameters}. However, Ether is not distributed to any wallets at the end of the end() function to prevent an invalid or malignant addresses from reverting the Ethereum Virtual Machine. Ether can only be pulled from the Seedom contract using the withdraw() function.
+In the same end() function, Ether allocates to the NPO, selected participant, and Seedom using the split percentages the Seedom contract is constructed with, defined in Table \ref{tab:fundraiserDeploymentParameters}. However, Ether is not distributed to any wallets during the end() function to prevent an invalid or malignant address from reverting the Ethereum Virtual Machine (EVM). The withdraw() function in a separate transaction is the only way to pull Ether from the Seedom contract, for all parties involved.
 
 \subsection{Withdrawing Balances}
 
-After the end() function completes, the NPO, selected participant for reward, and Seedom can now withdraw their respective funds by calling the withdraw() function. These funds are available for withdraw until the destruct time of the contract. To avoid the security issue known as re-entrancy, the withdraw() function uses the checks-effects-interactions pattern \cite{7}. As a best practice, Seedom recommends that everyone withdraw their funds as soon as possible.
+After the end() function completes, the NPO, selected participant, and Seedom can now withdraw their respective Ether by calling the withdraw() function. These funds are available for withdrawing until the destruct time of the contract. The withdraw() function uses the checks-effects-interactions pattern \cite{7} to avoid a re-entrancy security issue. As a best practice, Seedom recommends that everyone withdraw their funds as soon as possible.
 
 \subsection{Contract Self-destruction}
 \label{sec:contractSelfDestruction}
 
-The destruct time for both the Seedom and polling contracts is set to 3 months from the beginning of a fundraiser. This allows for 6 sets of live smart contracts and plenty of time for the withdrawal of funds. After the destruct time, Seedom can self-destruct these legacy contracts. Any Ether left in the contracts will be transferred to Seedom.
+The destruct time for both the Seedom and polling contracts is set to 3 months from the beginning of a fundraiser. Setting the self-destruct availability time this far into future allows for six more fundraisers to occur and plenty of time for the withdrawal of old contract funds. After the destruct time, Seedom will self-destruct these legacy contracts, and any Ether remaining in them will transfer to Seedom.
 
 \subsection{Fundraiser Cancellation}
 \label{sec:fundraiserCancellation}
 
-After the fundraiser contracts are deployed, but before the end() function is called, both the NPO and Seedom can cancel it using the cancel() function. Cancellation is a simple process that prevents the fundraiser from proceeding further, refunding all participant entries obtained during the participation and voting phase. After cancellation is complete, users may check their balance with the balance() function and withdraw their refund with the withdraw() function. Gas costs are non-refundable.\\\\
-After Seedom calls the end() function, cancellation is impossible; however, if Seedom or the NPO fail to reveal their messages before the expiration time, the cancel() function opens to the NPO, Seedom, and the entire community. This ensures that every entry is refundable in the improbable event that something catastrophic happens to Seedom, the NPO, or both.
+After the fundraiser contracts are deployed, but before the end() function is called, both the NPO and Seedom can cancel the contracts using the cancel() function. Cancellation is a simple process that prevents the fundraiser from proceeding further, refunding all participant entries obtained during the participation and voting phase. Once the cancel() function completes, users may check their balance with the balance() function and withdraw their refund with the withdraw() function. Gas costs are non-refundable.\\\\
+After Seedom calls the end() function, early cancellation is impossible; however, if Seedom or the NPO fail to reveal their messages before the expire time, the same cancel() function become available to the NPO, Seedom, and the entire community. This time-based expiration ensures that every entry is refundable in the improbable event that something catastrophic happens to Seedom, the NPO, or both.
 
 \section{Token Sale}
 Never.
 
 \section{Future Work}
 
-The Seedom and polling contracts will be re-deployed for every fundraiser, resulting in new contract addresses for each. Seedom is an agile project that is continuously improved from user feedback with a release cadence aligned with these deployments. The following are some of the improvements the Seedom team would like to implement going forward.
+The Seedom and polling contracts will be re-deployed for every fundraiser, resulting in new contract addresses for each. Seedom is an agile project continuously improved from user feedback with a release cadence aligned with these deployments. The following are some of the improvements the Seedom team would like to implement going forward.
 
 \subsection{Efficient Participant Storage}
 
-An order statistic tree \cite{5} may replace the dynamic participant storage array in the contract to facilitate future features of the application. The participants hash map remains the same, and would be used in conjunction with this tree. A balanced and ordered statistic binary search tree allows for the efficient rank ordering of participant entries, and it is an essential step to providing support for a live participant leaderboard.
+An order statistic tree \cite{5} may replace the dynamic participant storage array in the contract to facilitate future features of the application. A balanced and ordered statistic binary search tree augments the participants mapping, allowing for the efficient rank ordering of participant entries. It is an essential step to providing support for a live participant leaderboard, detailed in Section \ref{sec:liveParticipantsLeaderboard}.
 
 \subsubsection{Live Participants Leaderboard}
+\label{sec:liveParticipantsLeaderboard}
 
-As more users participate, a live leaderboard will be available that tracks, in descending order, each participant's number of entries. To allow for a leaderboard, an alias will be captured during participation. If a user does not provide an alias during participation, their sending address will be displayed. While not encouraged, participants are free to use this as a way of impromptu advertising. So if Company X wants their name to show within Seedom DAPP, they can buy many entries to display themselves at the top of the leaderboard.
+As more users participate, a live leaderboard will be available that tracks, in descending order, each participant's number of entries. To allow for a leaderboard, an alias will be captured during participation. If a user does not provide an alias for participation, their sending address will be displayed. While not encouraged, participants are free to use this as a way of impromptu advertising. So if Company X wants their name to show within Seedom DAPP, they can buy many entries to display themselves at the top of the leaderboard.
 
 \subsection{Enhanced Random Message Generation Security}
 
@@ -307,7 +308,7 @@ Miner manipulation of the crowd-sourced random message generation process requir
 \subsubsection{Increasing the Entropy of Participant-generated Randomization}
 \label{sec:increasingTheEntropyOfParticipantGeneratedRandomization}
 
-In the first release of Seedom, participant messages considered in the crowd-sourced random message generation process are XORed in order of time of participation during the participation and voting phase. Randomization of the order of the XORed participant messages using the XOR of the NPO and Seedom messages as a seed to this randomization would provide additional entropy and protection against participant and miner manipulation of the final random message.
+In the first release of Seedom, participant messages considered in the crowd-sourced random message generation process are XORed in order of time of participation during the participation and voting phase. Randomization of the order of the XORed participant messages using the XOR of the revealed NPO and Seedom messages as a seed to this randomization would provide additional entropy and protection against participant and miner manipulation of the final random message.
 
 \subsection{Handling Fund Growth}
 
@@ -315,15 +316,16 @@ As Seedom's participant base grows, our administration fee and participant selec
 
 \subsubsection{Administration Fee Reduction}
 
-The 5\% administration fee is adequate to maintain our decentralized application and protect the concept from any legal involvements that may arise. Many laws and organizations span the local and international jurisdictions that might impede the creation of a thoroughly transparent and trustless private global fundraising system of this magnitude. As those concerns dwindle, our administration fee should follow in tandem, at our discretion, to ensure maximal returns to the NPO and our community. It is the intention of the Seedom team that the administration fee never exceeds 5\%.
+The 5\% administration fee is adequate to maintain our DAPP and protect the concept from any legal involvements that may arise. Many laws and organizations span the local and international jurisdictions that might impede the creation of a thoroughly transparent and trustless private global fundraising system of this magnitude. As those concerns dwindle, our administration fee should follow in tandem, at our discretion, to ensure maximal returns to the NPO and our community. The Seedom team fully intends to keep the administration fee at or under 5\%.
 
 \subsubsection{Multiple Rewarded Participants}
 
-There is an inherent burden that comes with a sizable influx of funds to any individual. Therefore, as the popularity of Seedom grows, we may introduce, at our discretion, the ability for multiple rewarded participants. Each selected participant might receive more funds than the previous, or a pool of participants may equally split the reward Ether. However, there will only be one benefiting NPO for any fundraiser.
+There is an inherent burden that comes with a sizable influx of funds to any individual. Therefore, as the popularity of Seedom grows, we may introduce, at our discretion, the ability for multiple rewarded participants. Each additionally selected participant might receive more or fewer funds than the previous, or a pool of participants may equally split the reward Ether. However, there will only be one benefiting NPO for any fundraiser.
 
 \subsubsection{Improving the Efficiency of Participant Selection}
+\label{sec:improvingTheEfficiencyOfParticipantSelection}
 
-The Seedom contract uses the roulette wheel selection algorithm. While fairly efficient, more efficient algorithms exist, such as Vose's alias method \cite{8}. While more complex to implement, this method will be introduced in a future release.
+The Seedom contract currently uses an algorithm similar to roulette wheel selection, while crowd-sourcing random number generation. While acceptably efficient for the initial release, more efficient algorithms exist, such as Vose's alias method \cite{8}. Table \ref{tab:worstCaseAnalysisOfParticipantSelectionAlgorithms} is a worst runtime analysis of these algorithms. The implementation of Vose's method is saved for a future Seedom contract, due to its slight additional programmatic complexity in Solidity.
 
 \begin{table}[H]
 \begin{center}
@@ -333,26 +335,26 @@ The Seedom contract uses the roulette wheel selection algorithm. While fairly ef
 Roulette Wheel Selection & $\Theta(n)$ & $\Theta(log(n))$ & $\Theta(n)$ \\ \hline
 Vose's Alias Method & $\Theta(n)$ & $\Theta(1)$ & $\Theta(n)$ \\ \hline
 \end{tabular}
-\caption{Participant selection algorithms}
-\label{tab:participantSelectionAlgorithms}
+\caption{Worst case analysis of participant selection algorithms}
+\label{tab:worstCaseAnalysisOfParticipantSelectionAlgorithms}
 \end{center}
 \end{table}
 
 \subsubsection{Enhancements to the Polling Contract}
 \label{sec:enhancementsToThePollingContract}
 
-The initial release of Seedom uses a proof-of-participation method that only looks at the currently running Seedom contract for evidence of user participation. This proof will be enhanced to include all Seedom contracts that have not been self-destructed. Each participant will receive a single vote per fundraiser, independent of the number of entries obtained, allowing engaged Seedom participants a greater effect on the future of Seedom and the NPOs the team ultimately choose.
+The initial release of Seedom uses a proof-of-participation routine that only looks at the currently running Seedom contract for evidence of user participation. This proof will be enhanced to include all Seedom contracts that have not self-destructed. Each participant will receive a single vote per fundraiser, independent of the number of entries obtained, allowing engaged Seedom participants an increased effect on the future of Seedom and the NPOs the team ultimately choose.
 
 \subsubsection{Reducing Volatility with Maker Dai}
 
-Most cryptocurrencies, including Bitcoin and Ether, are fairly volatile assets. The value of a Bitcoin often experiences very large fluctuations, rising or falling by as much as 25\% in a single day and 3x in a month \cite{10}. Over the time period of a Seedom fundraiser, the price of Ether, compared to fiat currencies such as the U.S. dollar, might change significantly.\\\\
-Seedom will likely switch to a more stable cryptocurrency, such as Maker Dai, for all smart contract transactions. The Maker platform is decentralized and stabilizes the value of Dai to one U.S. dollar using external market mechanisms and economic incentives. Once generated, Dai can be used in the same manner as any other cryptocurrency: it can be freely sent to others, used as payments for goods and services, or
-held as long term savings \cite{9}. 
+Most cryptocurrencies, including Bitcoin and Ether, can be quite volatile assets. The value of a Bitcoin often experiences sizable fluctuations, rising or falling by as much as 25\% in a single day and 3x in a month \cite{10}. Over the period of a Seedom fundraiser, the price of Ether, compared to fiat currencies such as the U.S. dollar, might change significantly.\\\\
+Seedom will likely switch to a more stable cryptocurrency, such as Maker Dai, for all smart contract transactions. The Maker platform is decentralized and stabilizes the value of Dai to one U.S. dollar using external market mechanisms and economic incentives. Once generated, Dai transacts in the same manner as any other cryptocurrency: it can be freely sent to others, used as payments for goods and services, or
+held as long-term savings \cite{9}. 
 
 \subsubsection{Physical Fundraisers}
 
-During the recap phase after a fundraiser ends, a physical fundraiser and volunteering event can take place near the headquarters of the benefiting NPO to continue bringing awareness, contributions, and volunteers to their cause. This event will be open to the public, and everyone is welcome to attend.\\\\
-The rewarded participant or participants will be invited by email, if provided to Seedom during participation, to a trip to both the volunteer and fundraising events, wherever they may be in the world. Moreover, Seedom will send some of our team members along to assist the NPO with these endeavors.
+During the recap phase, a physical fundraiser and volunteering event can take place near the headquarters of the benefiting NPO to continue bringing awareness, contributions, and volunteers to their cause. This event will be open to the public, and any participant is welcome to attend.\\\\
+The rewarded participant or participants will be invited by email if provided to Seedom during participation, to a trip to both the volunteer and fundraising events, wherever they may be in the world. Moreover, Seedom will send some of our team members along to assist the NPO with these endeavors.
 
 \section{Team Members}
 
