@@ -225,7 +225,7 @@ A user obtains additional entries by sending more Ether through the fundraiser c
 
 \subsubsection{Suggesting and Voting on Future Causes}
 
-After a user participates in the fundraiser contract, the user may now vote once on a future cause through the polling contract. The user can either suggest a new cause, or vote on an existing suggestion, with either counting as their vote. The polling contract is linked to the fundraiser contract, as it uses proof-of-participation to determine if the user is allowed to vote. Currently, proof-of-participation only looks at the running fundraiser contract; however, this will be enhanced in the future as described in Section \ref{sec:enhancementsToThePollingContract}.
+After a user participates in the fundraiser contract, the user may now vote once on a future cause through the polling contract. The user can either suggest a new cause, or vote on an existing suggestion, with either counting as their vote. The polling contract is linked to the fundraiser contract, as it uses proof-of-participation to determine if the user is allowed to vote. Currently, proof-of-participation only looks at the running fundraiser contract; however, this will be enhanced in the future as described in Section \ref{sec:enhancedProofOfParticipationInThePollingContract}.
 
 \subsection{Cause Reveals Their Message}
 
@@ -340,8 +340,8 @@ Vose's Alias Method & $\Theta(n)$ & $\Theta(1)$ & $\Theta(n)$ \\ \hline
 \end{center}
 \end{table}
 
-\subsection{Enhancements to the Polling Contract}
-\label{sec:enhancementsToThePollingContract}
+\subsection{Enhanced Proof-of-Participation in the Polling Contract}
+\label{sec:enhancedProofOfParticipationInThePollingContract}
 
 The initial release of Seedom uses a proof-of-participation routine that only looks at the currently running fundraiser contract for evidence of user participation. This proof will be enhanced to include all fundraiser contracts that have not self-destructed. Each participant will receive a single vote per fundraiser, independent of the number of entries obtained, allowing engaged Seedom participants an increased effect on the future of Seedom and the causes the team ultimately choose.
 
