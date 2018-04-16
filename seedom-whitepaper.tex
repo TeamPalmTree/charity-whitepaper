@@ -171,7 +171,6 @@ valuePerEntry & uint256 & UNIX timestamp of the start of revelation phase \\ \hl
 endTime & uint256 & UNIX timestamp of the end of participation phase \\ \hline
 expireTime & uint256 & UNIX timestamp of the expiration of the fundraiser \\ \hline
 destructTime & uint256 & UNIX timestamp of allowed contract destruction \\ \hline
-maxParticipants & uint256 & max participants to prevent out-of-gas transactions \\ \hline
 \end{tabular}
 \caption{Fundraiser deployment parameters}
 \label{tab:fundraiserDeploymentParameters}
@@ -182,8 +181,7 @@ The wallet address for the cause must be posted publicly through their social ch
 The split percentages are numbers out of 1000 to allow the expression of a one decimal place and must sum to 1000. The Seedom owner secret is a hash of a 32-byte message, generated using the secret generation formula in Figure \ref{figure:secretGenerationFormula}. This message will be revealed to the world after the cause reveals their message after the fundraiser end time.\\\\
 No participation or raising of entries can occur after the end time. Instead, the cause and Seedom must reveal their messages to the world, which in turn selects a participant to receive the participant reward.\\\\
 The expire time is set to the end of the recap phase, allowing time for the cause and Seedom to reveal their messages. See Section \ref{sec:seedomRevealsTheirMessageAndEndsTheFundraiser} for details.\\\\
-The destruct time is set well into the future, allowing Seedom to self-destruct legacy contracts. See Section \ref{sec:contractSelfDestruction} for more details.\\\\
-The max participants count is a safeguard against running out of gas during the end() function, which calculates the crowd-sourced random message and selects a participant to reward.
+The destruct time is set well into the future, allowing Seedom to self-destruct legacy contracts. See Section \ref{sec:contractSelfDestruction} for more details.
 
 \begin{figure}[H]
 \begin{center}
@@ -196,6 +194,19 @@ The max participants count is a safeguard against running out of gas during the 
 \subsubsection{Polling Contract}
 
 A polling contract will be deployed alongside the fundraiser contract for the same period, allowing participants of the fundraiser to suggest and vote on future causes for us to support. This polling contract is directly linked to the fundraiser contract, using it for proof-of-participation, and determining when voting is allowed.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{| l | l | l |}
+\hline
+\textbf{Parameter} & \textbf{Data Type} & \textbf{Description} \\ \hline
+maxScore & uint256 & the max score of a vote \\ \hline
+fundraiser & address & link to the fundraiser contract \\ \hline
+\end{tabular}
+\caption{Polling deployment parameters}
+\label{tab:pollingDeploymentParameters}
+\end{center}
+\end{table}
 
 \subsection{Cause Begins Their Fundraiser}
 
@@ -239,8 +250,30 @@ The end() function becomes available to Seedom after the cause reveals their mes
 \subsubsection{Secure Deterministic Crowd-sourced Random Message Generation}
 \label{sec:secureDeterministicCrowdSourcedRandomMessageGeneration}
 
-Because Ethereum is a Turing complete deterministic world computer, mining nodes cannot generate individual random messages as they would never be able to reach consensus. Many decentralized applications decide to use a miner-defined seed value, such as the block-hash, timestamp, or other value to generate a random message. This technique is usually flawed given a miner's ability to ignore or reorder transactions and avoid broadcasting blocks entirely. It opens up the potential for the miner to receive additional chances of winning, even with deincentivization enhancements. Other methods of random message generation include the usage of an external oracle, which requires a participant to trust the availability and validity of such service.\\\\
-Seedom's method is similar to that of the RANDAO \cite{2}, without the the second phase of collecting valid secrets. The fundraiser contract receives two secrets, or hashed messages, guaranteed to be from Seedom and the cause. Once these secrets store on-chain, the collection of public messages from participants can occur during the participation and voting phase. After the fundraiser end time, Seedom and the cause reveal their secrets, which store on-chain after they are confirmed, using the formula in Figure \ref{figure:secretGenerationFormula}. All of the participant messages are XORed together, and this result is XORed again with the cause and Seedom revealed messages to produce a crowd-sourced random message used to select a participant to reward, a process displayed visually in Figure \ref{figure:crowdsourcedRandomMessageGeneration}.
+Because Ethereum is a Turing complete deterministic world computer, mining nodes cannot generate global random messages as they would never be able to reach consensus. Many Ethereum pseudo-random number generation methods exist, with each having various pros and cons \cite{12}.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{| l | l | l | l | l |}
+\hline
+\textbf{Method} & \textbf{On-chain} & \textbf{One Transaction} & \textbf{Safe Against Miners} & \textbf{No Time Constraint} \\ \hline
+Block variables & X & X & & X \\ \hline
+Current blockhash & X & X & & X \\ \hline
+Last blockhash & X & X & & X \\ \hline
+Future blockhash & X & & X & \\ \hline
+RANDAO (Commit-reveal) & X & & X & X \\ \hline
+External oracle & & X & X & X \\ \hline
+Seedom & X & X & X & X \\ \hline
+\end{tabular}
+\caption{Pseudo-random number generation methods}
+\label{tab:pseudoRandomNumberGenerationMethods}
+\end{center}
+\end{table}
+
+The usage of block variables as a source of entopy is usually flawed given a miner's ability to manipulate all of these values. While the future blockhash method is secure, it requires a user to issue multiple transactions in order to generate a random number. The same is true of the RANDAO with the commit and reveal phases. Both of these methods introduce extra steps that decrease the ease of use of the application.\\\\
+Extra work must be done in the RANDAO method to prevent miner manipulation as miners can ignore transactions, reorder them, and avoid broadcasting blocks entirely. It opens up the potential for the miner to receive additional chances of winning, even with deincentivization enhancements. Other methods of random message generation include the usage of an external oracle, which requires a participant to trust the availability and validity of such service.\\\\
+The Seedom method involves receiving two secrets, or hashed messages, guaranteed to be from Seedom and the cause. Once these secrets store on-chain, the collection of public messages from participants can occur during the participation and voting phase. After the fundraiser end time, Seedom and the cause reveal their secrets, which store on-chain after they are verified, using the formula in Figure \ref{figure:secretGenerationFormula}.\\\\
+These two revealed messages are XORed together to generate something call the administrator random message, which is then used to select a single participant's message. The administrator random message is then XORed with the randomly selected participant's message to produce a final crowd-sourced random message. This final random message is used to select yet another participant to actually reward, a process displayed visually in Figure \ref{figure:crowdsourcedRandomMessageGeneration}.
 
 \begin{figure}[H]
 \begin{center}
@@ -249,6 +282,8 @@ Seedom's method is similar to that of the RANDAO \cite{2}, without the the secon
 \label{figure:crowdsourcedRandomMessageGeneration}
 \end{center}
 \end{figure}
+
+Ethereum miners have much flexibility is regards to Seedom relies on a randomization effort from the Seedom team, the cause, and a randomly selected participant.
 
 Many forms of manipulation can occur in the participant-generated portion of the crowd-sourced random message. Manipulation can occur from participants, with access to the entire set of participant messages, and miners, due to miner transaction and block flexibility. The cost of a Seedom entry combined with Ethereum transaction fees is not high enough to deincentivize participants or miners from attempting manipulation.\\\\
 However, because the cause and Seedom have seeded additional independent sources of randomization with their revealed messages, such efforts will be in vain. Neither Seedom nor the cause will know of the other's message until revealed. An attacker trying to rig the selection of a participant for reward has to know the secret messages of both Seedom and the cause and has to manipulate the participant-generated portion of the crowd-sourced random message.\\\\
