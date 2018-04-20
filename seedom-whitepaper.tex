@@ -86,18 +86,18 @@ Well before a Seedom fundraiser begins, our team will accept suggestions from ca
 Seedom is the first fundraiser and rewards platform with all of the following qualities.
 
 \begin{itemize}
-\item{\textbf{Philanthropic} a new cause will be chosen bimonthly}
+\item{\textbf{Philanthropic} Seedom chooses a new cause bimonthly}
 \item{\textbf{Trustless} trust in the cause is the only requirement}
 \item{\textbf{Transparent} all contract transactions publicly visible and immutable}
 \item{\textbf{Relevant} our team works with legitimate and focused causes benefiting those with an ongoing need for assistance}
 \item{\textbf{Secure} security provided by the Ethereum platform itself}
 \item{\textbf{Governed} a polling contract allows participants to suggest future causes to support}
 \item{\textbf{Anonymous} your personal information is not required}
-\item{\textbf{Private} your information is never revealed}
+\item{\textbf{Private} Seedom only optionally shares your email with the cause}
 \item{\textbf{Inclusive} anyone in the world can participate}
 \item{\textbf{Affordable} everyone will be able to afford an entry}
 \item{\textbf{Limitless} there is no limit to the number of obtainable entries}
-\item{\textbf{Instantaneous} payout allocation to the cause and selected participant is immediate}
+\item{\textbf{Instantaneous} payout allocation is immediate}
 \end{itemize}
 
 \subsection{Trustlessness}
@@ -130,13 +130,13 @@ Although Seedom is not a lottery and not a raffle, similar organizations exist w
 \subsection{Similar Ethereum Projects}
 
 Alice, Charitychain, Giveth, and Hypergive are experimental Ethereum fundraising DAPPs currently under development. Many of these platforms go beyond fundraising with fund management to control the internal operations of the causes supported. The first three allow donation refunds if the benefiting organization does not meet promised goals by a deadline. Hypergive creates a direct and secure funding connection between donators and homeless and hungry individuals globally. This channel is similar to one employed by an aid program run by the United Nations that delivered funds to 10,000 Syrian refugees using the Ethereum blockchain \cite{6}, with biometric scanners validating fund recipients.\\\\
-Seedom is a FUNdraising DAPP that brings routine attention to causes, and it is agnostic to the internal operational methodologies employed by the receiving organization. The organization can maintain their autonomy over their funds outside of Seedom or community control. However, we believe in transparent end-to-end philanthropic benefit delivery systems, and we will work to integrate with any organization or platform that increases a user's understanding of exactly where their donation went. See Section \ref{figure:givethIntegration} for our future plan to integrate with Giveth.
+Seedom is a FUNdraising DAPP that brings routine attention to causes, and it is agnostic to the internal operational methodologies employed by the receiving organization. The organization can maintain their autonomy over their funds outside of Seedom or community control. However, we believe in transparent end-to-end philanthropic benefit delivery systems, and we will work to integrate with any organization or platform that increases a user's understanding of exactly where their donation went. See Section \ref{figure:givethIntegration} for our plan to support Giveth's architecture.
 
 \section{Seedom Explained}
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=0.4\textwidth]{../seedom-assets/flow/process-vertical-dark.pdf}
+\includegraphics[width=0.55\textwidth]{../seedom-assets/flow/process-vertical-dark.pdf}
 \caption{A visual overview of the Seedom fundraiser}
 \end{center}
 \end{figure}
@@ -159,17 +159,17 @@ The fundraiser contract deploys with several immutable parameters, including the
 
 \begin{table}[H]
 \begin{center}
-\begin{tabular}{| l | l | p{25em} |}
+\begin{tabular}{| l | l | p{32em} |}
 \hline
 \textbf{Parameter} & \textbf{Data Type} & \textbf{Description} \\ \hline
-cause & address & The wallet address for the cause must be posted publicly through their social channels for attestation of identity before the cause begins their fundraiser. \\ \hline
+cause & address & The cause's Ethereum wallet address. \\ \hline
 causeSplit & uint256 & The percentage of funds given to the cause, expressed as an integer out of 1000 (600 is 60.0\%). \\ \hline
 participantSplit & uint256 & The percentage of funds given to a selected participant (350 is 35.0\%). \\ \hline
-ownerSplit & uint256 & The percentage of funds given to the contract owner (Seedom) (50 is 5.0\%). \\ \hline
-ownerSecret & bytes32 & The owner secret is a hash of a 32-byte message from Seedom. This message will be revealed to the world after the fundraiser end time as part of a commit-reveal random number generation method. See Section \ref{sec:secureDeterministicRandomParticipantSelection} for details. \\ \hline
+ownerSplit & uint256 & The percentage of funds as an administration fee (50 is 5.0\%). \\ \hline
+ownerSecret & bytes32 & A 32-byte message from Seedom, used in a commit-reveal random number generation method. See Section \ref{sec:secureDeterministicRandomParticipantSelection} for details. \\ \hline
 valuePerEntry & uint256 & The cost of a single entry, expressed in wei. \\ \hline
-endTime & uint256 & No participation or raising of entries can occur after the end time, a UNIX timestamp. Instead, the cause and Seedom must reveal their secret messages, selecting a participant to receive the participant reward. \\ \hline
-expireTime & uint256 & The expire time is a UNIX timestamp set to the end of the recap phase, allowing time for the cause and Seedom to reveal their messages. See Section \ref{sec:seedomRevealsTheirMessageAndEndsTheFundraiser} for details. \\ \hline
+endTime & uint256 & The beginning of the recap phase, during which a random participant is rewarded. No participation or raising of entries can occur after this end time, which is a UNIX timestamp. \\ \hline
+expireTime & uint256 & The expire time is a UNIX timestamp set to the end of the recap phase, allowing time for random participant selection. See Section \ref{sec:seedomRevealsTheirMessageAndEndsTheFundraiser} for details. \\ \hline
 destructTime & uint256 & The destruct time is a UNIX timestamp set well into the future, allowing Seedom to self-destruct legacy contracts and recover abandoned funds. See Section \ref{sec:contractSelfDestruction} for more details. \\ \hline
 entropy & uint256 & The entropy number is used to increase the participant-generated entropy of the random number generation process. See Section \ref{sec:secureDeterministicRandomParticipantSelection} for details. \\ \hline
 \end{tabular}
@@ -184,7 +184,7 @@ A polling contract will be deployed alongside the fundraiser contract for the sa
 
 \begin{table}[H]
 \begin{center}
-\begin{tabular}{| l | l | p{25em} |}
+\begin{tabular}{| l | l | p{32em} |}
 \hline
 \textbf{Parameter} & \textbf{Data Type} & \textbf{Description} \\ \hline
 maxScore & uint256 & An integer representing the maximum score of a vote. \\ \hline
@@ -197,7 +197,7 @@ fundraiser & address & This address links the current polling contract to the cu
 
 \subsection{Cause Begins Their Fundraiser}
 
-Shortly after the contracts deploy, the chosen cause must create an additional 32-byte message value and hash it into a secret, using the formula in Figure \ref{figure:secretGenerationFormula}. The cause sends this secret to the begin() function, and, upon confirmation, the community may now participate. The begin() function will only accept secrets from the chosen cause. This message is generated using the secret generation formula in Figure \ref{figure:secretGenerationFormula} and will be revealed just after the fundraiser end time.
+The cause's wallet address must be posted publicly through their social channels for attestation of identity before they begin their fundraiser. Then, shortly after the Seedom contracts deploy, the chosen cause must create an additional 32-byte message and hash it into a secret, using the formula in Figure \ref{figure:secretGenerationFormula}. The cause sends their secret to the begin() function, and, upon confirmation, the community may now participate in Seedom. The begin() function will only accept secrets from the chosen cause.
 
 \begin{figure}[H]
 \begin{center}
@@ -207,34 +207,31 @@ Shortly after the contracts deploy, the chosen cause must create an additional 3
 \end{center}
 \end{figure}
 
-\subsubsection{On the Initial Collection of Secrets}
-
-Two secrets, one from Seedom during deployment, and one from the cause through a call to the begin() function, are kept publicly in fundraiser contract storage and allow for the participation and voting phase to begin. These collected secrets, together with some of the public messages provided during the participation and voting phase, are used to generate a random number that selects a participant to reward.\\\\
-If the cause does not begin() their fundraiser with their secret before the end time, the fundraiser is inoperable, with all participants receiving refunds upon cancellation. See Section \ref{sec:fundraiserCancellation} for more information about the cancellation process. For more details on how the random number generation process works, see Section \ref{sec:secureDeterministicRandomParticipantSelection}.
+Seedom collects secrets from the Seedom team and cause as part of a commit-reveal random number generation strategy to select a participant to reward, detailed in Section \ref{sec:secureDeterministicRandomParticipantSelection}. If the cause does not begin() their fundraiser with their secret before the end time, the fundraiser is inoperable, with all participants receiving refunds upon cancellation. See Section \ref{sec:fundraiserCancellation} for more information about the cancellation process.
 
 \subsection{Participants Obtain Entries and Provide Public Messages}
 
-After the cause has submitted their secret to begin(), the fundraiser is considered open, and anyone can now participate and obtain entries with Ether using the participate() function. Participation is the one-time per user contribution of a 32-byte message to the world with enough Ether for at least one entry. These public messages are used after the end time of the fundraiser to provide additional entrop in the random number generation process, detailed in Section \ref{sec:secureDeterministicRandomParticipantSelection}.\\\\
+After the cause has submitted their secret to begin(), the fundraiser is considered open, and anyone can now participate and obtain entries with Ether using the participate() function. Participation is the one-time per user contribution of a 32-byte message to the world along with enough Ether for at least one entry. Some of these public messages are used during the recap phase of the fundraiser to provide additional entropy in a random participant selection process, detailed in Section \ref{sec:secureDeterministicRandomParticipantSelection}.\\\\
 Each entry costs a fixed value determined by the Seedom team during deployment of the fundraiser contract. The cost of a single entry, including Ethereum transaction fees, will be globally affordable to allow those beneath the international poverty line of \$1.90 (USD) per day \cite{1} to participate, with a minimum entry being less than the Ether equivalent of this amount. Each entry obtained by a participant increases the likelihood that the participant is selected to receive the participant split of all of the Ether contributed to the fundraiser contract.\\\\
 Entries are non-refundable except in the case of fundraiser cancellation. Partial entries immediately refund at the end of the participate() function. Seedom and cause wallet addresses cannot participate in the fundraiser and polling contracts.
 
 \subsubsection{Email Addresses}
 
-While participating within the Seedom DAPP, a user can optionally provide their email address, which is securely passed to MailChimp by the DAPP along with their Ethereum public wallet address for storage. Participation will sign the user up to the Seedom mailing list. This mailing list is used to notify users of the results of all fundraisers, to announce upcoming fundraisers, and to congratulate selected participants that receive the reward.\\\\
-The email address associated with a rewarded participant's wallet address is never publicly revealed to protect the privacy of the selected participant. A user's email address and their associated Ethereum wallet address are forgotten immediately after the user opt-outs out of the Seedom mailing list. Opting out protects the user's privacy and keeps the Seedom system compliant with data privacy legislation, such as the European Union's General Data Protection Regulation (GDPR).\\\\
+While participating within the Seedom DAPP, a user can optionally provide their email address, which is securely passed to our marketing automation platform by the DAPP along with their Ethereum public wallet address for storage. Participation will sign the user up to the Seedom mailing list. This mailing list is used to notify users of the results of all fundraisers, to announce upcoming fundraisers, and to congratulate selected participants that receive the reward.\\\\
+Seedom will never reveal the email address associated with a rewarded participant's wallet address to protect the user's privacy. A user's email address and their associated Ethereum wallet address are forgotten immediately after the user opt-outs out of the Seedom mailing list. Opting out protects the user's privacy and keeps the Seedom system compliant with data privacy legislation, such as the European Union's General Data Protection Regulation (GDPR).\\\\
 Additionally, email addresses provided to Seedom forward to the currently benefitting cause. Users can unsubscribe from the cause's mailing lists at any time.
 
 \subsubsection{Raising Additional Entries}
 
-A user obtains additional entries, increasing their chances of being selected for reward, by sending more Ether through the fundraiser contract's fallback function after a the user first participates with their public message. There is no limit to the number of entries a participant can acquire during the participation and voting phase. A participant can check the number of entries they or any other participant has through the fundraiser contract or DAPP at any time.
+A user obtains additional entries after initial participation, increasing their chances of being selected for reward, by sending more Ether through the fundraiser contract's fallback function. There is no limit to the number of entries a participant can acquire during the participation and voting phase. A participant can check the number of entries they or any other participant has through the fundraiser contract or DAPP at any time.
 
 \subsubsection{Suggesting and Voting on Future Causes}
 
-After a user participates in the fundraiser contract, the user may now vote once on a future cause through the polling contract. The user can either suggest a new cause, or vote on an existing suggestion, with either counting as their vote. The polling contract is linked to the fundraiser contract, as it uses proof-of-participation to determine if the user is allowed to vote. Currently, proof-of-participation only looks at the running fundraiser contract; however, this will be enhanced in the future as described in Section \ref{sec:enhancedProofOfParticipationInThePollingContract}.
+After a user participates in the fundraiser contract, the user may now vote once on a future cause through the polling contract. The user can either suggest a new cause, or vote on an existing suggestion, with either counting as their vote. The polling contract is linked to the fundraiser contract, as it uses proof-of-participation to determine if the user is allowed to vote. Our proof-of-participation method only looks at the currently running fundraiser contract; however, this will be enhanced in the future as described in Section \ref{sec:enhancedProofOfParticipationInThePollingContract}.
 
 \subsection{Cause Reveals Their Message}
 
-After the fundraiser end time, users can no longer participate or raise additional entries. Between the end time and expire time, the cause must reveal() their message to the world provided during begin(). This revealation is the end of part of a commit-reveal random number generation method, detailed in Section \ref{sec:secureDeterministicRandomParticipantSelection}. If the cause does not reveal() their message to the world before the expire time, the fundraiser is inoperable, with all participants receiving refunds upon cancellation. See Section \ref{sec:fundraiserCancellation} for more information about the cancellation process.
+During the recap phase, users can no longer participate or raise additional entries. Between the end time and expire time, the cause must reveal() their message to the world provided during begin(). This revelation is part of a commit-reveal random number generation method, detailed in Section \ref{sec:secureDeterministicRandomParticipantSelection}. If the cause does not reveal() their message to the world before the expire time, the fundraiser is inoperable, with all participants receiving refunds upon cancellation. See Section \ref{sec:fundraiserCancellation} for more information about the cancellation process.
 
 \subsection{Seedom Reveals Their Message and Ends the Fundraiser}
 \label{sec:seedomRevealsTheirMessageAndEndsTheFundraiser}
@@ -244,7 +241,7 @@ The end() function becomes available to Seedom after the cause reveals their mes
 \subsubsection{Secure Deterministic Random Participant Selection}
 \label{sec:secureDeterministicRandomParticipantSelection}
 
-Ethereum is a Turing complete deterministic world computer with many mining nodes assisting in its processing. Individual mining nodes cannot generate globally available random numbers as they would never be able to reach consensus. Many Ethereum pseudo-random number generation (PNRG) schemes exist that are resistant to miner tampering, each having various pros and cons \cite{12}. The usage of direct block variables as a source of entropy is usually flawed given a miner's ability to manipulate all of these values; therefore, those methods are not discussed.
+Ethereum is a Turing complete deterministic world computer with many mining nodes assisting in its progress. Individual mining nodes cannot generate globally available random numbers as they would never be able to reach consensus. Many Ethereum pseudo-random number generation (PRNG) schemes exist that are resistant to miner tampering, shown in Table \ref{tab:minerTamperingResistantPrngMethods}, each having various pros and cons \cite{12}. Seedom avoids the usage of current block variables as a source of entropy as it is a flawed approach given a miner's ability to manipulate all of those values.
 
 \begin{table}[H]
 \begin{center}
@@ -257,18 +254,18 @@ External oracle & & X & X \\ \hline
 Signidice & X & X & \\ \hline
 Sequential PoW & & X & X \\ \hline
 \end{tabular}
-\caption{Miner tampering resistant pseudo-random number generation methods}
-\label{tab:minerTamperingResistantPseudoRandomNumberGenerationMethods}
+\caption{Miner tampering resistant PRNG methods}
+\label{tab:minerTamperingResistantPrngMethods}
 \end{center}
 \end{table}
 
-For Seedom, we want a method that is done on-chain, requires only a single participant transaction, and generates a random that is globally available to all participants. On-chain implies that most, if not all, of the calculation of the random number is done transparently within the Ethereum Virtual Machine (EVM). A participant should not have to go through multiple steps when participating, and should only need to submit a single transaction. Finally, the same random number must be globally available to all participants for selection.\\\\
-The future blockhash method locks the contract to a specific block number in a first transaction and requires a second transaction, within 256 blocks \cite{14}, that pulls the blockhash of this block number as a source of entropy. This method is susceptible to miner manipulation of the blockhash of the first block, if a miner has enough computational power to do so.\\\\
-Commit-reveal implementations, such as the RANDAO \cite{2}, collect user-generated secrets, but then require a revelation phase, where many or all of these secrets are revealed on-chain. However, miners can ignore and reorder transactions, and avoid broadcasting blocks entirely. Miners may be able to receive many additional chances of winning, especially towards the end of the revelation phase, even with deincentivization mechanisms.\\\\
-Any use of an external oracle requires a participant to trust the availability and validity of such service. The participant must trust all of the oracle's underlying infrastructure and trust that the Oracle has not tampered with the results. Moreover, a technique known as front-running allows an attacker to observe pending transactions for a response from an Oracle and insert their own response ahead of the Oracle's response using a higher gas price.\\\\
-Signidice uses a cryptographic signature between two parties to generate a secure random number using the signature. BLS threshold signatures would allow a similar method to work with more than two parties \cite{15}; however, the necessary functions for implementation do not yet exist in Solidity. This may be a method used by Seedom in the future.\\\\
-The current Seedom method involves a combination of some of the methods in Table \ref{tab:minerTamperingResistantPseudoRandomNumberGenerationMethods}. It begins with receiving two secrets, or hashed messages, guaranteed to be from Seedom and the cause as part of a commit-reveal. Once these secrets store on-chain, the collection of public messages from participants can occur during the participation and voting phase.\\\\
-After the fundraiser end time, the cause reveals their secret message first, and saves the block number of this revelation transaction on-chain. Seedom then reveals their secret message in a future block, using the future blockhash of the reveal transaction blocknumber as an additional source of entropy. The future blockhash is stored within the fundraiser contract for reference. Both secret messages are verified using the formula in Figure \ref{figure:secretGenerationFormula}.\\\\
+For Seedom, we want a method that runs on-chain, requires only a single participant transaction and generates a random that is globally available to all participants. On-chain implies that most, if not all, of the calculation of the random number is done transparently within the Ethereum Virtual Machine (EVM). A participant should not have to go through multiple steps when participating, and should only need to submit a single transaction.\\\\
+The future blockhash method locks the contract to a specific block number in a first transaction and requires a second transaction, within 256 blocks \cite{14}, that pulls the blockhash of this block number, creating one source of entropy. This method is susceptible to miner manipulation of the blockhash of the first block if a miner has enough computational power to do so.\\\\
+Commit-reveal implementations, such as the RANDAO \cite{2}, collect user-generated secrets but then require a revelation phase, where users reveal many or all of these secrets on-chain. However, miners can ignore and reorder transactions, and avoid broadcasting blocks entirely. Miners may be able to receive many additional chances of winning, especially towards the end of the revelation phase, even with deincentivization mechanisms.\\\\
+Any use of an external oracle requires a participant to trust the availability and validity of such service. The participant must trust all of the oracle's underlying infrastructure and trust that the oracle has not tampered with the results. Moreover, a technique known as front-running allows an attacker to observe pending transactions for a response from an oracle and insert their own response ahead of the oracle's response using a higher gas price.\\\\
+Signidice uses a cryptographic signature between two parties to generate a secure random number using this signature. BLS threshold signatures allow for a similar random number generation process that is not limited to two parties \cite{15}. The necessary functions for BLS do not yet exist in Solidity, but Seedom may begin using threshold signatures as they become available.\\\\
+The Seedom approach involves a combination of some of these methods to receive combined benefits. It begins with receiving two secrets, or hashed messages, guaranteed to be from Seedom and the cause as part of a commit-reveal. Once these secrets store on-chain, the collection of public messages from participants can occur during the participation and voting phase.\\\\
+During the recap phase, the cause reveals their secret message first and saves the block number of this revelation transaction on-chain. Seedom then reveals their secret message in a future block, using the future blockhash of the reveal transaction block number as an additional source of entropy. The end() function stores this future blockhash within the fundraiser contract for reference. Both secret messages are verified using the formula in Figure \ref{figure:secretGenerationFormula}.\\\\
 The two revealed messages and the future blockhash are then used to calculate a first random number using the formula in Figure \ref{figure:firstRandomNumberForumla}, which is modded with the total number of entires to obtain a random entry number. The entry number is subsequently used to find a first random participant.
 
 \begin{figure}[H]
@@ -279,7 +276,7 @@ The two revealed messages and the future blockhash are then used to calculate a 
 \end{center}
 \end{figure}
 
-Given a random entry number, a participant is found using a binary search into a dynamic array of funding instances constructed during the participation and voting phase. These fund instances represent each participation and raising of entries. This array of funds is structured as a cumulative density function (CDF) of entries by participant, in order of participant contract funding. Figure \ref{figure:randomParticipantSearch} displays this search process visually.
+With a random entry number, the corresponding participant is found using a binary search into a dynamic array of funding instances constructed during the participation and voting phase. These fund instances represent each participation and raising of entries. The array of funds is structured as a cumulative density function (CDF) of new entries by participant, in order of contract funding. Figure \ref{figure:randomParticipantSearch} displays this search process visually.
 
 \begin{figure}[H]
 \begin{center}
@@ -289,7 +286,7 @@ Given a random entry number, a participant is found using a binary search into a
 \end{center}
 \end{figure}
 
-This process loops a set amount of times, as defined by the entropy number supplied during fundraiser contract deployment, using the participant's message at each step as part of the seed for the next random number. This formula is shown in Figure \ref{figure:nextRandomNumberFormula}.
+This process loops a set amount of times, as defined by the entropy number supplied during fundraiser contract deployment in Table \ref{tab:fundraiserDeploymentParameters}, using the participant's message at each step as part of the seed for the next random number. Figure \ref{figure:nextRandomNumberFormula} shows the formula used for this next random number.
 
 \begin{figure}[H]
 \begin{center}
@@ -299,7 +296,7 @@ This process loops a set amount of times, as defined by the entropy number suppl
 \end{center}
 \end{figure}
 
-The Seedom random number generation method traverses a random path through the immutable set of participants and their corresponding messages to gain additional entropy. The last participant in the path is the selected participant for reward and is stored in the fundraiser contract, completing the fundraiser. Anyone can validate this entire deterministic process using data stored in the contract. The overall method is displayed visually in Figure \ref{figure:overallFinalRandomParticipantSelectionProcess}.
+The Seedom random number generation method creates a random path through a subset of the immutable participants and their corresponding messages to add additional entropy to the participant selection process. The last participant on the random path is the participant selected for reward and is stored in the fundraiser contract, completing the fundraiser. Anyone can validate this entire deterministic process using data stored in the contract. The overall method is displayed visually in Figure \ref{figure:overallFinalRandomParticipantSelectionProcess}.
 
 \begin{figure}[H]
 \begin{center}
@@ -308,6 +305,18 @@ The Seedom random number generation method traverses a random path through the i
 \label{figure:overallFinalRandomParticipantSelectionProcess}
 \end{center}
 \end{figure}
+
+\subsubsection{Rigging Random Participant Selection}
+
+To rig random participant selection or increase their chances of being selected, a miner must have all of the following abilities.
+
+\begin{itemize}
+\item{Seedom's secret message is known}
+\item{The cause's secret message is known}
+\item{High enough hash rate to control the total number of funds}
+\item{High enough hash rate to insert funds at certain indexes}
+\item{High enough hash rate to manipulate the reveal block's future blockhash}
+\end{itemize}
 
 \subsubsection{Allocation of Ether}
 
@@ -326,7 +335,7 @@ The destruct time for both the fundraiser and polling contracts is set to 3 mont
 \label{sec:fundraiserCancellation}
 
 After the fundraiser contracts are deployed, but before the end() function is called, both the cause and Seedom can cancel the contracts using the cancel() function. Cancellation is a simple process that prevents the fundraiser from proceeding further, refunding all participant entries obtained during the participation and voting phase. Once the cancel() function completes, users may check their balance with the balance() function and withdraw their refund with the withdraw() function. Gas costs are non-refundable.\\\\
-After Seedom calls the end() function, early cancellation is impossible; however, if Seedom or the cause fail to reveal their messages before the expire time, the same cancel() function become available to the cause, Seedom, and the entire community. This time-based expiration ensures that every entry is refundable in the improbable event that something catastrophic happens to Seedom, the cause, or both.
+After Seedom calls the end() function, early cancellation is impossible; however, if Seedom or the cause fails to reveal their messages before the expire time, the same cancel() function become available to the cause, Seedom, and the entire community. This time-based expiration ensures that every entry is refundable in the improbable event that something catastrophic happens to Seedom, the cause, or both.
 
 \section{Token Sale}
 Never.
@@ -338,11 +347,11 @@ The fundraiser and polling contracts will be re-deployed for every fundraiser, r
 \subsection{Live Participants Leaderboard}
 \label{sec:liveParticipantsLeaderboard}
 
-As more users participate, a live leaderboard will be available that tracks, in descending order, each participant's number of entries. To allow for a leaderboard, an alias will be captured during participation. If a user does not provide an alias for participation, their sending address will be displayed. While not encouraged, participants are free to use this as a way of impromptu advertising. So if Company X wants their name to show within Seedom DAPP, they can buy many entries to display themselves at the top of the leaderboard. This feature requires the implementation of an order statistic tree.
+As more users participate, a live leaderboard will be available that tracks, in descending order, each participant's number of entries. Seedom will capture an alias during participation to allow for a leaderboard. If a user does not provide an alias with participation, their sending address will be displayed. While not encouraged, participants are free to use this as a way of impromptu advertising. So if Company X wants their name to show within Seedom DAPP, they can buy many entries to display themselves at the top of the leaderboard. This feature requires the implementation of an order statistic tree.
 
 \subsubsection{Order Statistic Tree Participants Storage}
 
-An order statistic tree \cite{5} may be added to the contract to allow for the live participants leaderboard. A balanced and ordered statistic binary search tree augments the participants mapping, allowing for the efficient rank ordering of participant total entries.
+An order statistic tree \cite{5} in the fundraiser contract allows for the live leaderboard of participants. A balanced and ordered statistic binary search tree augments the participants mapping, allowing for the efficient rank ordering of participant entries.
 
 \subsection{Handling Fund Growth}
 
