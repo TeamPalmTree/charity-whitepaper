@@ -163,9 +163,11 @@ The fundraiser contract deploys with several immutable parameters, including the
 \begin{tabular}{| l | l | p{32em} |}
 \hline
 \textbf{Parameter} & \textbf{Data Type} & \textbf{Description} \\ \hline
-cause & address & The cause's Ethereum wallet address. \\ \hline
+cause & address & The cause's curator address. \\ \hline
+causeWallet & address & The cause's wallet address. \\ \hline
 causeSplit & uint256 & The percentage of funds given to the cause, expressed as an integer out of 1000 (600 is 60.0\%). \\ \hline
 participantSplit & uint256 & The percentage of funds given to a selected participant (350 is 35.0\%). \\ \hline
+ownerWallet & address & The owner's wallet address. \\ \hline
 ownerSplit & uint256 & The percentage of funds as an administration fee (50 is 5.0\%). \\ \hline
 ownerSecret & bytes32 & A 32-byte message from Seedom, used in a commit-reveal random number generation method. See Section \ref{sec:secureDeterministicRandomParticipantSelection} for details. \\ \hline
 valuePerEntry & uint256 & The cost of a single entry, expressed in wei. \\ \hline
